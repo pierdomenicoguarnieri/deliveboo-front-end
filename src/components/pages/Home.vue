@@ -1,29 +1,3 @@
-<template>
-  <div class="home-container-inner">
-    <h1 class="home-title">Benvenuto su Deliveboo!</h1>
-    <div class="home-search-container">
-      <input class="home-search-input" type="text" placeholder="Cerca il tuo ristorante...">
-    </div>
-    <div class="home-category-scroll">
-      <button @click="scroll(-1)" class="scroll-button">←</button>
-      <div class="home-category-container">
-        <div class="home-category-card" v-for="category in categories" :key="category.name">
-          <img :src="'https://source.unsplash.com/random?' + category.name" alt="category.name">
-          <h3>{{ category.name }}</h3>
-        </div>
-      </div>
-      <button @click="scroll(1)" class="scroll-button">→</button>
-    </div>
-    <h2 class="home-subtitle">Ristoranti popolari nella tua zona</h2>
-    <div class="home-restaurant-grid">
-      <div class="home-restaurant-card" v-for="n in 6" :key="n">
-        <img class="home-restaurant-image" :src="'https://source.unsplash.com/random?restaurant,' + n" alt="Ristorante">
-        <h3 class="home-restaurant-name">Nome del ristorante</h3>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   name: 'Home',
@@ -52,6 +26,32 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div class="home-container-inner">
+    <h1 class="home-title">Benvenuto su Deliveboo!</h1>
+    <div class="home-search-container">
+      <input class="home-search-input" type="text" placeholder="Cerca il tuo ristorante...">
+    </div>
+    <div class="home-category-scroll">
+      <button @click="scroll(-1)" class="scroll-button">←</button>
+      <div class="home-category-container">
+        <div class="home-category-card" v-for="category in categories" :key="category.name">
+          <img :src="'https://source.unsplash.com/random?' + category.name" alt="category.name">
+          <h3>{{ category.name }}</h3>
+        </div>
+      </div>
+      <button @click="scroll(1)" class="scroll-button">→</button>
+    </div>
+    <h2 class="home-subtitle">Ristoranti popolari nella tua zona</h2>
+    <div class="home-restaurant-grid">
+      <div class="home-restaurant-card" v-for="n in 6" :key="n">
+        <img class="home-restaurant-image" :src="'https://source.unsplash.com/random?restaurant,' + n" alt="Ristorante">
+        <h3 class="home-restaurant-name">Nome del ristorante</h3>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .home-container-inner {
