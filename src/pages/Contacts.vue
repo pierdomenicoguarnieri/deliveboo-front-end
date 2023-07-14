@@ -12,7 +12,7 @@
       <p class="info-description">
         Email: info@fooddelivery.it <br>
         Telefono: 0123456789 <br>
-        Indirizzo: Via Roma 22, Milano
+        Indirizzo: Via Roma 12, Milano
       </p>
     </section>
 
