@@ -1,14 +1,3 @@
-<<<<<<< HEAD:src/components/pages/About.vue
-
-<script>
-export default {
-    name: 'About'
-}
-</script>
-
-
-=======
->>>>>>> d365fc3 (contacts about us):src/pages/About.vue
 <template>
     <div class="about-container-inner">
         <h1 class="about-title">Chi Siamo</h1>
