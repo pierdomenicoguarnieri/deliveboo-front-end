@@ -1,14 +1,9 @@
-<<<<<<< HEAD:src/components/pages/About.vue
-
 <script>
-export default {
-    name: 'About'
-}
+    export default {
+        name: 'About'
+    }
 </script>
 
-
-=======
->>>>>>> d365fc3 (contacts about us):src/pages/About.vue
 <template>
     <div class="about-container-inner">
         <h1 class="about-title">Chi Siamo</h1>
@@ -33,8 +28,6 @@ export default {
             <img class="location-map" src="https://source.unsplash.com/random?city" alt="Mappa della località">
         </section>
 
-      
-
         <section class="career-section">
             <h2 class="section-title">Lavora con noi</h2>
             <p class="career-description">
@@ -44,12 +37,6 @@ export default {
         </section>
     </div>
 </template>
-
-<script>
-export default {
-    name: 'About'
-}
-</script>
 
 <style scoped lang="scss">
 .about-container-inner {
