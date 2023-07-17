@@ -5,11 +5,13 @@
         <section class="team-section">
             <h2 class="section-title">Il nostro team</h2>
             <div class="team-grid">
-                <div class="team-card" v-for="n in 4" :key="n">
+                <div class="team-card" v-for="n in 6" :key="n">
                     <img class="team-member-image" :src="'https://source.unsplash.com/random?person,' + n"
                         alt="Membro del team">
-                    <h3 class="team-member-name">Nome del Membro</h3>
-                    <p class="team-member-role">Ruolo nel team</p>
+                    <div class="team-member-info">
+                        <h3 class="team-member-name">Nome del Membro</h3>
+                        <p class="team-member-role">Ruolo nel team</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -19,7 +21,6 @@
             <p class="location-description">
                 Siamo situati a Milano, in Via Roma 22.
             </p>
-            <img class="location-map" src="https://source.unsplash.com/random?city" alt="Mappa della località">
         </section>
 
         <section class="career-section">
@@ -34,52 +35,47 @@
 
 <script>
 export default {
-    name: 'About'
+    name: 'About',
 }
 </script>
 
 <style scoped lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
-
 .about-container-inner {
-    padding: 2rem;
+    padding: 20px;
     background-color: #f0ebe9;
     color: #65605F;
     text-align: center;
-    font-family: 'Lato', sans-serif;
 }
 
 .about-title,
 .section-title {
-    margin-bottom: 1rem;
-    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-size: 2em;
     color: #E37285;
-    text-transform: uppercase;
-    letter-spacing: 2px;
 }
 
 .team-section,
 .location-section,
 .career-section {
-    margin-bottom: 4rem;
+    margin-bottom: 40px;
 }
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .team-card {
+    position: relative;
     background-color: #FBFBFF;
     border-radius: 5px;
-    padding: 1rem;
+    padding: 10px;
     overflow: hidden;
-    transition: box-shadow .3s ease-in-out, transform .3s ease-in-out;
+    transition: box-shadow 0.3s ease;
 
     &:hover {
         box-shadow: 0 0 10px #CCC9A1;
-        transform: scale(1.02);
     }
 }
 
@@ -87,30 +83,64 @@ export default {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 5px;
 }
 
-.team-member-name,
-.team-member-role {
-    margin-top: 10px;
+.team-member-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.8rem;
 }
 
-.location-map {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    margin-top: 1rem;
+.team-card:hover .team-member-info {
+    opacity: 1;
+}
+
+.location-section {
+    background: url('https://source.unsplash.com/random?city') no-repeat center center/cover;
+    color: white;
+    padding: 5rem 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.location-section::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.location-description {
+    position: relative;
+    z-index: 1;
 }
 
 .career-button {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 20px;
     padding: 10px 20px;
     background-color: #E37285;
     color: #FBFBFF;
     text-decoration: none;
     border-radius: 5px;
-    transition: background-color .3s ease, color .3s ease;
+    transition: background-color 0.3s ease;
 
     &:hover {
         background-color: #4CFCC1;
@@ -119,18 +149,14 @@ export default {
 }
 
 @media (max-width: 768px) {
-
-    .about-title,
-    .section-title {
-        font-size: 2em;
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 480px) {
-
-    .about-title,
-    .section-title {
-        font-size: 1.5em;
+    .team-grid {
+        grid-template-columns: 1fr;
     }
 }
 </style>
