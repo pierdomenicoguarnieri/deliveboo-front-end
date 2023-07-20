@@ -35,15 +35,10 @@ const router = createRouter({
             component: About
         },
 
-
         {
             path: '/:pathMatch(.*)*',
             component: Error404
-
-
         }
-
-
     ]
 
 

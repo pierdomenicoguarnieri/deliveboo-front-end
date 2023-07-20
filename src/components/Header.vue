@@ -95,6 +95,7 @@ export default {
 <style lang="scss" scoped>
 
 @import '../scss/app.scss';
+
 header {
     background-color: white;
     border-bottom: 3px solid black;

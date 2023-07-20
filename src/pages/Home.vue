@@ -1,12 +1,12 @@
 
 <script>
-  // Import Swiper Vue.js components
+  import  {store} from '../store/store.js';
+  import axios from 'axios';
+
   import { Swiper, SwiperSlide } from 'swiper/vue';
-  // Import Swiper styles
   import 'swiper/css';
   import 'swiper/css/pagination';
-  // import required modules
-  import { Pagination } from 'swiper/modules';
+  import { Mousewheel, Pagination, Autoplay } from 'swiper/modules';
 
 export default {
   name: 'Home',
@@ -16,41 +16,26 @@ export default {
   },
   setup() {
     return {
-      modules: [Pagination],
+      modules: [Pagination, Mousewheel, Autoplay],
     };
   },
   data() {
-    
     return {
-
-      categories: [
-        { name: 'italiano' },
-        { name: 'sushi' },
-        { name: 'pizza' },
-        { name: 'pesce' },
-        { name: 'cinese' },
-        { name: 'indiano' },
-        { name: 'messicano' },
-        { name: 'vegetariano' },
-        { name: 'vegano' },
-        { name: 'fusion' },
-        { name: 'mediterraneo' },
-        { name: 'greco' },
-        { name: 'francese' }
-      ],
-      
-    };
+      store
+    }
   },
   methods: {
-    scroll(direction) {
+    getApi(endpoint){
+      axios.get(store.apiUrl + endpoint)
+        .then(results => {
+          store.restaurants = results.data.restaurants;
+          store.types = results.data.types;
+        })
     },
     
-    onHover(event) {
-      event.target.style.transform = "scale(1.1)";
-    },
-    onMouseOut(event) {
-      event.target.style.transform = "";
-    }
+  },
+  mounted(){
+    this.getApi('restaurants');
   }
 }
 </script>
@@ -67,46 +52,38 @@ export default {
     <div class="container">
       <div class="swiper_type_restaurant">
         <swiper
+          :slidesPerView="9"
+          :spaceBetween="30"
+          :loop="true"
+          :mousewheel="true"
+          :autoplay="{
+            delay: 2500,
+            disableOnInteraction: false,
+          }"
           :pagination="{
-            dynamicBullets: true,
+            clickable: true,
           }"
           :modules="modules"
-          class="mySwiper"
+          class="mySwiper h-100"
         >
-          <swiper-slide>Slide 1</swiper-slide>
-          <swiper-slide>Slide 2</swiper-slide><swiper-slide>Slide 3</swiper-slide>
+          <swiper-slide v-for="type in store.types" :key="type.id">
+          <span class="text-dark fw-bold">{{ type.name }}</span>
+          </swiper-slide>
         </swiper>
 
       </div>
 
-
-      <div class="home-category-scroll">
-        <button @click="scroll(-1)" class="scroll-button">←</button>
-        <div class="home-category-container">
-          <div class="home-category-card" v-for="category in categories" :key="category.name" @mouseover="onHover"
-            @mouseout="onMouseOut">
-            <img :src="'https://source.unsplash.com/random?' + category.name" alt="category.name">
-            <h3>{{ category.name }}</h3>
-          </div>
-        </div>
-        <button @click="scroll(1)" class="scroll-button">→</button>
-      </div>
-
-      
       <div class="mb-5">
         <h2 class="home-subtitle">Ristoranti popolari</h2>
         <div class="home-restaurant-grid">
-          <div class="home-restaurant-card" v-for="n in 3" :key="n">
-            <img class="home-restaurant-image" :src="'https://source.unsplash.com/random?restaurant,' + n" alt="Ristorante">
-            <h3 class="home-restaurant-name">Nome del ristorante</h3>
+
+          <div class="home-restaurant-card" v-for="restaurant in store.restaurants" :key="restaurant.id" v-show="restaurant.rating > 4">
+            <img class="home-restaurant-image" :src="'http://127.0.0.1:8000/storage' + restaurant.image_path" :alt="restaurant.image_name">
+            <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
             <div class="user-rating">
-              <span class="rating-label">Valutazione:</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
+              <span class="rating-label">{{restaurant.rating}}</span>
             </div>
+            <button class="btn btn-primary">ORDINA</button>
           </div>
         </div>
 
@@ -115,20 +92,18 @@ export default {
       <div>
         <h2 class="home-subtitle">Tutti i Ristoranti</h2>
         <div class="home-restaurant-grid">
-          <div class="home-restaurant-card" v-for="n in 6" :key="n">
-            <img class="home-restaurant-image" :src="'https://source.unsplash.com/random?restaurant,' + n" alt="Ristorante">
-            <h3 class="home-restaurant-name">Nome del ristorante</h3>
-            <p class="closing-time">Chiude alle 23:00 - Affrettati!</p>
-            <div class="user-rating">
-              <span class="rating-label">Valutazione:</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
-              <span class="rating-star">&#9733;</span>
+          <div class="home-restaurant-card" v-for="restaurant in store.restaurants" :key="restaurant.id">
+            <img class="home-restaurant-image" :src="'http://127.0.0.1:8000/storage' + restaurant.image_path" :alt="restaurant.image_name">
+            <div class="text">
+              <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
+              <div class="user-rating">
+                <span class="rating-label">{{restaurant.rating}}</span>
+              </div>
+              <div>
+                <span>Tipo</span>
+              </div>
+              <button class="btn btn-primary">ORDINA</button>
             </div>
-            <p class="home-restaurant-details">Scopri i nostri piatti di ispirazione italiana, cucinati con amore e
-              ingredienti freschi di giornata.</p>
           </div>
         </div>
 
@@ -185,64 +160,19 @@ export default {
     font-size: bold;
   }
 }
-
-.home-category-scroll {
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  margin-bottom: 50px;
-  
-  .scroll-button {
-    position: absolute;
-    background: rgba(209, 209, 209, 0.953);
-    border: none;
-    font-size: 2em;
-    padding: 10px;
-    color: #65605F;
-    cursor: pointer;
-    &:first-child {
-      left: 0;
-    }
-    &:last-child {
-      right: 0;
-    }
-    &:hover {
-      color: #E37285;
-    }
+.swiper_type_restaurant{
+  height: 150px;
+  .swiper-slide{
+    height: 100px;
+    padding: 0 15px;
+    border: 2px solid black;
+    background-color: $tertiary_color;
   }
-  .home-category-container {
-    display: flex;
-    overflow-x: auto;
-    .home-category-card {
-      flex: 0 0 auto;
-      background-color: #EDECEC;
-      color: #65605F;
-      border-radius: 5px;
-      padding: 10px;
-      overflow: hidden;
-      margin-right: 10px;
-      transition: transform 0.2s;
-
-      img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-
-      h3 {
-        margin-top: 5px;
-        font-size: 14px;
-        text-align: center;
-      }
-
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
+  span{
+    text-transform: capitalize;
+    
   }
 }
-
 
 .home-subtitle {
   margin-bottom: 30px;
