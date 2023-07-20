@@ -40,53 +40,32 @@ export default {
                     </li>
                 </ul>
             </nav>
-            <nav class="navbar  bg-white  d-md-none h-100">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon "></span>
-                    </button>
-                    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="d-md-none h-100">
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <h5 id="offcanvasRightLabel">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <router-link :to="{name:'home'}">home</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{name:'about'}">chi siamo</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{name:'contacts'}">contatti</router-link>
-                        </li>
+                        <ul class="pe-3">
+                            <li class="nav-item">
+                                <router-link :to="{name:'home'}">home</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="{name:'about'}">chi siamo</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="{name:'contacts'}">contatti</router-link>
+                            </li>
                         </ul>
                     </div>
-                    </div>
                 </div>
-            </nav>
-            <!--
 
-            
-            <div class="menu-icon" @click="toggleDropdown">&#9776;</div>
-            <transition v-if="showDropdown" name="slide-fade">
-                <ul>
-                    <li>
-                        <router-link :to="{ name: 'home' }" class="link" exact-active-class="active"> Home</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ name: 'contacts' }" class="link" exact-active-class="active"> Contatti</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ name: 'about' }" class="link" exact-active-class="active"> Chi Siamo</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ name: 'blog' }" class="link" exact-active-class="active"> Blog</router-link>
-                    </li>
-                </ul>
-            </transition>
-            -->
+            </div>
         </div>
         
     </header>
@@ -128,6 +107,14 @@ header {
         }
     }
 }
+.offcanvas.offcanvas-end{
+    width: 100%;
+}
+.offcanvas.offcanvas-body{
+    width: 100%;
+    
+}
+
 .menu-icon {
     cursor: pointer;
     font-size: 1.5em;
@@ -161,6 +148,11 @@ header {
     .menu-icon {
         font-size: 1.2em;
     }
+}
+@media screen and (min-width: 991px) {
+  .offcanvas.offcanvas-end{
+    width: 50%;
+  }
 }
 
 /* Media Query per cellulari */

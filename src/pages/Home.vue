@@ -29,10 +29,34 @@ export default {
       axios.get(store.apiUrl + endpoint)
         .then(results => {
           store.restaurants = results.data.restaurants;
+          store.restaurant_backup = store.restaurants;
           store.types = results.data.types;
+          
         })
     },
-    
+    getTypeId(id){
+      let flag;
+      store.restaurants = [];
+      store.restaurantfilter = [];
+      store.types_id.push(id);
+      console.log('id cliccato', store.types_id);
+
+      store.restaurant_backup.forEach(restaurant => {
+        console.log('Tipi', restaurant.types);
+        restaurant.types.forEach(type =>{
+          if(store.types_id.includes(type.id) && !store.restaurantfilter.includes(restaurant)){
+            store.restaurantfilter.push(restaurant);
+            console.log('LO CONTIENE', restaurant.name);
+          }
+          
+        })
+        console.log(store.restaurantfilter);
+      })
+      store.restaurants = store.restaurantfilter;
+      
+      
+    }
+
   },
   mounted(){
     this.getApi('restaurants');
@@ -54,7 +78,6 @@ export default {
         <swiper
           :slidesPerView="9"
           :spaceBetween="30"
-          :loop="true"
           :mousewheel="true"
           :autoplay="{
             delay: 2500,
@@ -66,34 +89,48 @@ export default {
           :modules="modules"
           class="mySwiper h-100"
         >
-          <swiper-slide v-for="type in store.types" :key="type.id">
+          <swiper-slide v-for="(type, index) in store.types" :key="index" @click="getTypeId(type.id)">
           <span class="text-dark fw-bold">{{ type.name }}</span>
           </swiper-slide>
         </swiper>
-
       </div>
+      <button type="button" @click="store.types_id = [], store.restaurants = store.restaurant_backup">
+          RESET
+      </button>
 
-      <div class="mb-5">
+      <div class="popular_restaurant mb-5" v-if="store.types_id.length == 0">
         <h2 class="home-subtitle">Ristoranti popolari</h2>
-        <div class="home-restaurant-grid">
-
-          <div class="home-restaurant-card" v-for="restaurant in store.restaurants" :key="restaurant.id" v-show="restaurant.rating > 4">
-            <img class="home-restaurant-image" :src="'http://127.0.0.1:8000/storage' + restaurant.image_path" :alt="restaurant.image_name">
-            <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
-            <div class="user-rating">
-              <span class="rating-label">{{restaurant.rating}}</span>
+        <swiper
+          :slidesPerView="3"
+          :spaceBetween="30"
+          :loop="true"
+          :mousewheel="true"
+          :pagination="{
+            clickable: true,
+          }"
+          :modules="modules"
+          class="mySwiper"
+        >
+        
+          <swiper-slide v-for="restaurant in store.restaurants" :key="restaurant.id" v-show="restaurant.rating > 4">
+            <div class="home-restaurant-card">
+              <img class="home-restaurant-image" :src="restaurant.image_path" :alt="restaurant.image_name">
+              <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
+              <div class="user-rating">
+                <span class="rating-label">{{restaurant.rating}}</span>
+              </div>
+              <button class="btn btn-primary">ORDINA</button>
             </div>
-            <button class="btn btn-primary">ORDINA</button>
-          </div>
-        </div>
-
+          </swiper-slide>
+        </swiper>
       </div>
+      
 
       <div>
         <h2 class="home-subtitle">Tutti i Ristoranti</h2>
         <div class="home-restaurant-grid">
           <div class="home-restaurant-card" v-for="restaurant in store.restaurants" :key="restaurant.id">
-            <img class="home-restaurant-image" :src="'http://127.0.0.1:8000/storage' + restaurant.image_path" :alt="restaurant.image_name">
+            <img class="home-restaurant-image" :src="restaurant.image_path" :alt="restaurant.image_name">
             <div class="text">
               <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
               <div class="user-rating">
@@ -188,10 +225,10 @@ export default {
 .home-restaurant-card {
   background-color: #fff;
   color: #000;
-  border-radius: 5px;
+  //border-radius: 5px;
   padding: 10px;
   overflow: hidden;
-  transition: transform 0.2s;
+  //transition: transform 0.2s;
   cursor: pointer;
 
   img {
