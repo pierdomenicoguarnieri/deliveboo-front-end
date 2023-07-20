@@ -1,3 +1,9 @@
+<script>
+export default {
+    name: 'About',
+}
+</script>
+
 <template>
     <div class="about-container-inner">
         <h1 class="about-title">Chi Siamo</h1>
@@ -33,11 +39,6 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'About',
-}
-</script>
 
 <style scoped lang="scss">
 .about-container-inner {
