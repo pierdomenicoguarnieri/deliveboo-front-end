@@ -1,3 +1,23 @@
+<script>
+import ContactForm from '../components/pages/Contacts.vue';
+
+export default {
+  name: 'Contacts',
+  components: {
+    ContactForm
+  },
+  data() {
+    return {
+      partners: [
+        { id: 1, name: 'Partner 1', image: 'https://source.unsplash.com/random?partner1' },
+        { id: 2, name: 'Partner 2', image: 'https://source.unsplash.com/random?partner2' },
+      ]
+    }
+  }
+}
+</script>
+
+
 <template>
   <div class="contacts-container-inner">
     <h1 class="contacts-title">Contatti</h1>
@@ -32,24 +52,7 @@
   </div>
 </template>
 
-<script>
-import ContactForm from '../components/ContactForm.vue';
 
-export default {
-  name: 'Contacts',
-  components: {
-    ContactForm
-  },
-  data() {
-    return {
-      partners: [
-        { id: 1, name: 'Partner 1', image: 'https://source.unsplash.com/random?partner1' },
-        { id: 2, name: 'Partner 2', image: 'https://source.unsplash.com/random?partner2' },
-      ]
-    }
-  }
-}
-</script>
 <style scoped lang="scss">
 .contacts-container-inner {
   padding: 2rem;
