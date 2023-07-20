@@ -1,12 +1,16 @@
 <script>
 import {store} from '../../store/store';
 import axios from 'axios';
+import Stars from '../partials/Stars.vue';
 export default {
   data(){
     return{
       store,
       restaurant: []
     }
+  },
+  components:{
+    Stars
   },
   methods:{
     getRestaurant(endpoint){
@@ -33,7 +37,9 @@ export default {
         <p>Indirizzo: {{ restaurant.address }}</p>
         <p>Telefono: {{ restaurant["telephone-number"] }}</p>
         <p>Email: {{ restaurant.email }}</p>
-        <div class="rating">{{ restaurant.rating }}</div>
+        <div class="user-rating">
+          <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/>
+        </div>
       </div>
     </div>
     <section class="dishes-section">
@@ -47,7 +53,7 @@ export default {
             <h3>{{ dish.name }}</h3>
             <p v-html="dish.description"></p>
             <p>Ingredienti: {{ dish.ingredients }}</p>
-            <p>Prezzo: {{ dish.price }}€</p>
+            <p>Prezzo: {{ dish.price }}</p>
           </div>
         </div>
       </div>

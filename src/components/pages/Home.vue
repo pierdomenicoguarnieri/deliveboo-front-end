@@ -7,12 +7,14 @@
   import 'swiper/css';
   import 'swiper/css/pagination';
   import { Mousewheel, Pagination, Autoplay } from 'swiper/modules';
+  import Stars from '../partials/Stars.vue';
 
 export default {
   name: 'Home',
   components: {
     Swiper,
     SwiperSlide,
+    Stars
   },
   setup() {
     return {
@@ -34,6 +36,7 @@ export default {
           
         })
     },
+
     getTypeId(id){
       let counter = 0;
       store.restaurants = [];
@@ -59,6 +62,15 @@ export default {
       }else{
         store.restaurants = store.restaurant_backup;
       }
+    },
+
+    checkActive(id){
+      const check = document.getElementById(id);
+      if (!check.classList.contains('active')){
+        check.classList.add('active')
+      }else{
+        check.classList.remove('active')
+      }
     }
 
   },
@@ -78,36 +90,22 @@ export default {
     </div>
 
     <div class="container">
-      <div class="swiper_type_restaurant">
-        <swiper
-          :slidesPerView="9"
-          :spaceBetween="30"
-          :mousewheel="true"
-          :autoplay="{
-            delay: 2500,
-            disableOnInteraction: false,
-          }"
-          :pagination="{
-            clickable: true,
-          }"
-          :modules="modules"
-          class="mySwiper h-100"
-        >
-          <swiper-slide v-for="(type, index) in store.types" :key="index" @click="getTypeId(type.id)">
-          <span class="text-dark fw-bold">{{ type.name }}</span>
-          </swiper-slide>
-        </swiper>
+      <div class="container-types d-flex flex-wrap justify-content-center mb-2">
+        <div class="type-container p-3" v-for="(type, index) in store.types" :key="index">
+          <span class="fw-bold" :id="type.id" @click="getTypeId(type.id), checkActive(type.id)">{{ type.name }}</span>
+        </div>
+        <div class="btn-container p-3">
+          <span class="reset fw-bold mb-5" @click="store.types_id = [], store.restaurants = store.restaurant_backup">
+            Reset
+          </span>
+        </div>
       </div>
-      <button type="button" @click="store.types_id = [], store.restaurants = store.restaurant_backup">
-          RESET
-      </button>
 
       <div class="popular_restaurant mb-5" v-if="store.types_id.length == 0">
         <h2 class="home-subtitle">Ristoranti popolari</h2>
         <swiper
           :slidesPerView="3"
           :spaceBetween="30"
-          :loop="true"
           :mousewheel="true"
           :pagination="{
             clickable: true,
@@ -117,11 +115,14 @@ export default {
         >
         
           <swiper-slide v-for="restaurant in store.restaurants" :key="restaurant.id" v-show="restaurant.rating > 4">
-            <div class="home-restaurant-card">
+            <div class="home-restaurant-card mb-5">
               <img class="home-restaurant-image" :src="restaurant.image_path" :alt="restaurant.image_name">
               <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
               <div class="user-rating">
-                <span class="rating-label">{{restaurant.rating}}</span>
+                <Stars :rating="Math.floor(restaurant.rating)" :originalRating="(restaurant.rating)"/>
+              </div>
+              <div class="typology-container my-2">
+                <span v-for="typology in restaurant.type" :key="typology.id" class="badge text-bg-secondary me-2 text-capitalize mb-2">{{ typology.name }}</span>
               </div>
               <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary">Ordina</span></router-link>
             </div>
@@ -138,10 +139,10 @@ export default {
             <div class="text">
               <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
               <div class="user-rating">
-                <span class="rating-label">{{restaurant.rating}}</span>
+                <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/>
               </div>
-              <div>
-                <span>Tipo</span>
+              <div class="typology-container my-2">
+                <span v-for="typology in restaurant.types" :key="typology.id" class="badge text-bg-secondary me-2 text-capitalize mb-2">{{ typology.name }}</span>
               </div>
               <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary">Ordina</span></router-link>
             </div>
@@ -202,17 +203,21 @@ export default {
     font-size: bold;
   }
 }
-.swiper_type_restaurant{
-  height: 150px;
-  .swiper-slide{
-    height: 100px;
-    padding: 0 15px;
-    border: 2px solid black;
-    background-color: $tertiary_color;
-  }
+.container-types{
   span{
+    color: $custom_white;
+    cursor: pointer;
     text-transform: capitalize;
-    
+    padding: 10px 15px;
+    background-color: $tertiary_color;
+    border-radius: 20px;
+    transition: all .3s;
+    &.reset{
+      background-color: darken($tertiary_color, 10%);
+    }
+    &:hover, &.active{
+      background-color: rgba($tertiary_color, 0.6);
+    }
   }
 }
 
