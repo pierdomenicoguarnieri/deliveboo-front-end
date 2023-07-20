@@ -25,8 +25,8 @@ export default {
 <template>
   <div class="restaurant-detail">
     <div class="header-card">
-      <div class="header-card-image">
-        <img :src="'https://source.unsplash.com/random?restaurant'" alt="Restaurant image" />
+      <div class="header-card-image w-25">
+        <img :src="restaurant.image_path" class="object-fit-cover w-100" :alt="restaurant.name" />
       </div>
       <div class="header-card-info">
         <h1>{{ restaurant.name }}</h1>
@@ -40,8 +40,8 @@ export default {
       <h2>I nostri piatti</h2>
       <div class="dishes-grid">
         <div class="dish-card" v-for="dish in restaurant.dishes" :key="dish.id">
-          <div class="dish-card-image">
-            <img :src="dish.image_path" :alt="dish.name" />
+          <div class="dish-card-image w-50">
+            <img :src="dish.image_path" class="w-100 object-fit-cover" :alt="dish.name" />
           </div>
           <div class="dish-card-info">
             <h3>{{ dish.name }}</h3>
