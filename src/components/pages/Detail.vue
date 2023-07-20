@@ -1,3 +1,27 @@
+<script>
+import {store} from '../../store/store';
+import axios from 'axios';
+export default {
+  data(){
+    return{
+      store,
+      restaurant: []
+    }
+  },
+  methods:{
+    getRestaurant(endpoint){
+      axios.get(store.apiUrl + endpoint)
+      .then(results => {
+        this.restaurant = results.data;
+      })
+    } 
+  },
+  mounted(){
+    this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);
+  }
+}
+</script>
+
 <template>
   <div class="restaurant-detail">
     <div class="header-card">
@@ -15,13 +39,13 @@
     <section class="dishes-section">
       <h2>I nostri piatti</h2>
       <div class="dishes-grid">
-        <div class="dish-card" v-for="dish in dishes" :key="dish.name">
+        <div class="dish-card" v-for="dish in restaurant.dishes" :key="dish.id">
           <div class="dish-card-image">
-            <img :src="'https://source.unsplash.com/random?' + dish.name" alt="Dish image" />
+            <img :src="dish.image_path" :alt="dish.name" />
           </div>
           <div class="dish-card-info">
             <h3>{{ dish.name }}</h3>
-            <p>{{ dish.description }}</p>
+            <p v-html="dish.description"></p>
             <p>Ingredienti: {{ dish.ingredients }}</p>
             <p>Prezzo: {{ dish.price }}€</p>
           </div>
@@ -31,29 +55,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      restaurant: {
-        "name": "Ristorante La Buona Forchetta",
-        "email": "info@labuonaforchetta.it",
-        "telephone-number": "+39 06 1234567",
-        "address": "Via del Gusto, 10, 00100 Roma Italia",
-        "rating": "⭐⭐⭐⭐⭐",
-      },
-      dishes: [
-        { name: 'antipasto', description: 'Antipasto con selezione di affettati e formaggi locali', ingredients: 'prosciutto, mozzarella, olive', price: 9 },
-        { name: 'carbonara', description: 'La tradizionale pasta alla carbonara con guanciale croccante', ingredients: 'spaghetti, uova, guanciale', price: 12 },
-        { name: 'cotoletta', description: 'Cotoletta alla milanese con patate al forno', ingredients: 'vitello, pangrattato, patate', price: 15 },
-        { name: 'tiramisu', description: 'Il classico dolce al caffè con savoiardi e mascarpone', ingredients: 'uova, zucchero, caffè', price: 7 },
-        { name: 'pizza margherita', description: 'La classica pizza margherita con mozzarella e pomodoro', ingredients: 'farina, acqua, lievito, sale, olio, pomodoro, mozzarella, basilico', price: 8 },
-        { name: 'gelato', description: 'Gelato artigianale ai gusti di fragola e cioccolato', ingredients: 'latte, zucchero, uova, fragola, cacao', price: 5 },
-      ],
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .restaurant-detail {

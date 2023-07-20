@@ -123,7 +123,7 @@ export default {
               <div class="user-rating">
                 <span class="rating-label">{{restaurant.rating}}</span>
               </div>
-              <button class="btn btn-primary">ORDINA</button>
+              <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary">Ordina</span></router-link>
             </div>
           </swiper-slide>
         </swiper>
@@ -143,7 +143,7 @@ export default {
               <div>
                 <span>Tipo</span>
               </div>
-              <button class="btn btn-primary">ORDINA</button>
+              <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary">Ordina</span></router-link>
             </div>
           </div>
         </div>
