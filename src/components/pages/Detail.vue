@@ -37,9 +37,9 @@ export default {
         <p>Indirizzo: {{ restaurant.address }}</p>
         <p>Telefono: {{ restaurant["telephone-number"] }}</p>
         <p>Email: {{ restaurant.email }}</p>
-        <div class="user-rating">
+        <!-- <div class="user-rating">
           <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/>
-        </div>
+        </div> -->
       </div>
     </div>
     <section class="dishes-section">
