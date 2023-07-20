@@ -15,31 +15,69 @@ export default {
 </script>
 
 <template>
-    <header class="header">
-        <div class="logo">LOGO</div>
-        <div class="menu-icon" @click="toggleDropdown">&#9776;</div>
-        <transition name="slide-fade">
-            <ul v-if="showDropdown">
-                <li>
-                    <router-link :to="{ name: 'home' }" class="link" exact-active-class="active"> Home</router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'contacts' }" class="link" exact-active-class="active"> Contatti</router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'about' }" class="link" exact-active-class="active"> Chi Siamo</router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'blog' }" class="link" exact-active-class="active"> Blog</router-link>
-                </li>
-            </ul>
-        </transition>
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <div class="me-5">
+                <div class="navbar-brand d-flex align-items-center h-100">
+                    <router-link :to="{name:'home'}">
+                        <img src="/img/Ghost_Orange_Text_Orange.png" class="d-md-inline-block d-none h-100" alt="">
+                        <img src="/img/Ghost_Orange.svg" class="d-md-none svg w-25" alt="">
+                    </router-link>
+
+                </div>
+            </div>
+            <nav class="ms-5 d-none d-md-inline">
+                <ul class="d-flex justify-content-center align-items-center h-100">
+                    <li>
+                        <router-link :to="{name:'home'}">home</router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{name:'about'}">chi siamo</router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{name:'contacts'}">contatti</router-link>
+                    </li>
+                </ul>
+            </nav>
+            <div class="d-md-none h-100">
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <h5 id="offcanvasRightLabel">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="pe-3">
+                            <li class="nav-item">
+                                <router-link :to="{name:'home'}">home</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="{name:'about'}">chi siamo</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="{name:'contacts'}">contatti</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
     </header>
 </template>
 
 <style lang="scss" scoped>
-.header {
-    background-color: #C1FC4C;
+
+@import '../scss/app.scss';
+
+header {
+    background-color: white;
+    border-bottom: 3px solid black;
     color: #0F1108;
     height: 90px;
     display: flex;
@@ -47,48 +85,40 @@ export default {
     align-items: center;
     padding: 0 20px;
     transition: all 0.3s ease-in-out;
-}
+    ul{
+        list-style: none;
+        padding: 20px 0;
+        margin: 0;
+        li{
+            margin: 0 10px;
 
-.logo {
-    color: #F32D44;
-    font-size: 1.5em;
-    transition: all 0.3s ease-in-out;
+            a{
+            text-transform: uppercase;
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 3px solid white;
+                &:hover, &.active{
+                    color: $tertiary_color;
+                    border-bottom: 3px solid $tertiary_color;
+                }
+            }
+        }
+    }
+}
+.offcanvas.offcanvas-end{
+    width: 100%;
+}
+.offcanvas.offcanvas-body{
+    width: 100%;
+    
 }
 
 .menu-icon {
     cursor: pointer;
     font-size: 1.5em;
     transition: all 0.3s ease-in-out;
-}
-
-ul {
-    list-style: none;
-    position: absolute;
-    right: 20px;
-    top: 90px;
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    transition: all 0.3s ease-in-out;
-}
-
-li {
-    margin: 15px 0;
-    transition: all 0.3s ease-in-out;
-}
-
-.link {
-    color: wheat;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-
-    &:hover,
-    &.active {
-        color: blue;
-    }
 }
 
 .slide-fade-enter-active {
@@ -118,6 +148,11 @@ li {
     .menu-icon {
         font-size: 1.2em;
     }
+}
+@media screen and (min-width: 991px) {
+  .offcanvas.offcanvas-end{
+    width: 50%;
+  }
 }
 
 /* Media Query per cellulari */
