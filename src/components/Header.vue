@@ -72,8 +72,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-
-@import '../scss/app.scss';
+@import '../scss/partials/variables';
 
 header {
     background-color: white;
