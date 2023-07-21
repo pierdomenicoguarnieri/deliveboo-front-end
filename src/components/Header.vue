@@ -1,6 +1,10 @@
 <script>
+import Cart from '../components/partials/Cart.vue';
 export default {
     name: 'Header',
+    components:{
+        Cart,
+    },
     data() {
         return {
             showDropdown: false
@@ -43,11 +47,12 @@ export default {
                     </li>
                     <li>
                         <a href="http://127.0.0.1:8000/admin">Dashboard</a>
+                        
                     </li>
                     <div class="boo-dropdown position-relative">
                         <i class="fa-solid fa-cart-shopping fs-5" @click="toggleDropdown()"></i>
                         <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi temporibus nisi aut nobis, officiis illum obcaecati provident iste totam eum ut mollitia debitis. Ducimus odio officiis voluptatibus labore facilis doloribus.
+                            <Cart/>
                         </div>
                     </div>
                 </ul>

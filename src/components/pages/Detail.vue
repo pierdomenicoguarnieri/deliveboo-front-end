@@ -3,10 +3,13 @@ import {store} from '../../store/store';
 import axios from 'axios';
 import Stars from '../partials/Stars.vue';
 export default {
+  name: 'Detail',
   data(){
     return{
       store,
-      restaurant: []
+      restaurant: [],
+      dishQuantity: 1,
+      
     }
   },
   components:{
@@ -17,13 +20,137 @@ export default {
       axios.get(store.apiUrl + endpoint)
       .then(results => {
         this.restaurant = results.data;
+        this.restaurant.dishes.forEach(dish => {
+          const index = store.ids.indexOf(dish.id);
+          if(index != -1){
+            this.dishQuantity = store.quantity[index];
+          }
+          
+        });
+
       })
-    } 
+    },
+    /*
+    cart(id){
+      const addcartbutton = document.getElementById('addcartbutton');
+      const changequantity = document.getElementById('changequantity');
+      //pusho id piatto nel carrello
+      store.array_cart.push(id);
+      store.totalItems++;
+
+      console.log(store.array_cart);
+      if(store.totalItems > 0){
+        addcartbutton.classList.add('d-none')
+        changequantity.classList.remove('d-none')
+      }else if(store.totalItems == 0){
+        addcartbutton.classList.remove('d-none')
+        changequantity.classList.add('d-none')
+      }
+    },
+    */
+
+    AddToCart(dish) {
+      const addcartbutton = document.getElementById('addcartbutton');
+      const changequantity = document.getElementById('changequantity');
+      //pusho id piatto nel carrello
+      //store.array_cart.push(dish.id);
+      //store.totalItems++;
+
+      //console.log(store.array_cart);
+      if(store.totalItems > 0){
+        addcartbutton.classList.add('d-none')
+        changequantity.classList.remove('d-none')
+      }else if(store.totalItems == 0){
+        addcartbutton.classList.remove('d-none')
+        changequantity.classList.add('d-none')
+      }
+
+      if (localStorage.totalPrice) {
+          if (localStorage.restaurantId != dish.restaurant_id) {
+              store.error = true;
+              store.lastDish = dish;
+              return;
+          }
+          localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
+          store.totalPrice = localStorage.totalPrice;
+          store.totalItems++;
+          localStorage.totalItems = parseInt(parseInt(localStorage.totalItems) + 1);
+      }
+      else {
+          localStorage.setItem('totalPrice', dish.price);
+          store.totalPrice = localStorage.totalPrice;
+          console.log(dish.price);
+          
+          localStorage.setItem('restaurantId', dish.restaurant_id);
+          store.restaurantId = localStorage.restaurantId;
+          store.totalItems = 1;
+          localStorage.setItem('totalItems', 1);
+      }
+      if (localStorage.getItem(`quantity%${dish.id}`))
+          localStorage.setItem(`quantity%${dish.id}`, parseFloat(localStorage.getItem(`quantity%${dish.id}`)) + 1);
+      else {
+          localStorage.setItem(`quantity%${dish.id}`, 1);
+          store.ids.push(dish.id);
+          store.quantity.push('1');
+      }
+    },
+    addCart(dish) {
+        localStorage.setItem(`quantity%${dish.id}`, parseFloat(localStorage.getItem(`quantity%${dish.id}`)) + 1);
+        localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
+        store.totalPrice = localStorage.totalPrice;
+        console.log(localStorage.totalPrice);
+        
+        this.dishQuantity = localStorage.getItem(`quantity%[${dish.id}]`);
+ 
+        console.log(localStorage.getItem(`quantity%[${dish.id}]`));
+        store.totalItems++;
+        localStorage.totalItems = parseInt(parseInt(localStorage.totalItems) + 1);
+        const index = store.ids.indexOf(dish.id);
+        if(index != -1){
+          store.quantity[index]++;
+        }
+          
+    },
+
+    removeCart(dish) {
+      localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price).toFixed(2);
+      store.totalPrice = localStorage.totalPrice;
+      const index = store.ids.indexOf(dish.id);
+      store.totalItems--;
+      localStorage.totalItems = parseInt(parseInt(localStorage.totalItems) - 1);
+
+      // se ha quantità 1
+      if(this.dishQuantity == 1) {
+          // rimuovo l'id dall'array id dello store
+          store.ids.splice(index, 1);
+          // rimuovo la quantità dall'array quantity dello store
+          store.quantity.splice(index, 1);
+          // lo rimuovo dal localStorage
+          localStorage.removeItem(`quantity%${dish.id}`)
+          // se non sono rimasti altri piati
+          if(!store.totalItems) {
+              // svuoto lo store
+              localStorage.clear();
+              store.restaurantId = null;
+          }
+      }
+      // altrimenti
+      else {
+          // tolgo 1 alla quantità nel localStorage
+          localStorage.setItem(`quantity%${dish.id}`, parseFloat(localStorage.getItem(`quantity%${dish.id}`)) - 1);
+          // tolgo 1 al plateQuantity
+          this.dishQuantity = localStorage.getItem(`quantity%${dish.id}`);
+            if(index != -1)
+            // tolgo 1 alla sua quantity nello store
+              store.quantity[index]--;
+      }
+    }
   },
   mounted(){
-    this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);
+    this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);  
   }
 }
+
 </script>
 
 <template>
@@ -55,6 +182,25 @@ export default {
             <p v-html="dish.description"></p>
             <p>Ingredienti: {{ dish.ingredients }}</p>
             <p>Prezzo: {{ dish.price }}</p>
+            <div class="text-center">
+              <button 
+                type="button" 
+                class="btn btn-primary" 
+                id="addcartbutton"
+                @click="AddToCart(dish)">Add to Cart
+              </button>
+              <div 
+                class="btn d-none" 
+                id="changequantity"
+                >
+                
+                <button type="button" @click="removeCart(dish)">-</button>
+                  <span class="mx-2">{{ dishQuantity }}</span>
+                <button type="button" @click="addCart(dish)">+</button>
+              </div>
+
+            </div>
+
           </div>
         </div>
       </div>
