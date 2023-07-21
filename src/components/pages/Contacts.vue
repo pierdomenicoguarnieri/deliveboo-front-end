@@ -1,18 +1,15 @@
 <script>
-
-export default {
-  name: 'Contacts',
-
-  data() {
-    return {
-      partners: [
-        { id: 1, name: 'Partner 1', image: 'https://source.unsplash.com/random?partner1' },
-        { id: 2, name: 'Partner 2', image: 'https://source.unsplash.com/random?partner2' },
-        // Aggiungi altri partner qui...
-      ]
+  export default {
+    name: 'Contacts',
+    data() {
+      return {
+        partners: [
+          { id: 1, name: 'Partner 1', image: 'https://source.unsplash.com/random?partner1' },
+          { id: 2, name: 'Partner 2', image: 'https://source.unsplash.com/random?partner2' },
+        ]
+      }
     }
   }
-}
 </script>
 
 <template>
@@ -26,11 +23,15 @@ export default {
 
     <section class="info-section">
       <h2 class="section-title">Informazioni di contatto</h2>
-      <p class="info-description">
-        Email: info@fooddelivery.it <br>
-        Telefono: 0123456789 <br>
-        Indirizzo: Via Roma 22, Milano
-      </p>
+      <div class="info-container">
+        <div class="info-description">
+          <p>Email: <a href="mailto:info@fooddelivery.it">info@fooddelivery.it</a></p>
+          <p>Telefono: <a href="tel:0123456789">0123456789</a></p>
+          <p>Indirizzo: <a href="https://goo.gl/maps/LuG3D8obE4R2" target="_blank" rel="noopener">Via Roma 22,
+              Milano</a></p>
+        </div>
+        <div id="map"></div>
+      </div>
     </section>
 
     <section class="partners-section">
@@ -61,15 +62,38 @@ export default {
   color: #E37285;
 }
 
-.info-description {
-  font-size: 1.2em;
-  margin-bottom: 2rem;
-}
-
 .info-section,
 .form-section,
 .partners-section {
   margin-bottom: 4rem;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.info-description {
+  font-size: 1.2em;
+  margin-bottom: 2rem;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      text-decoration: underline;
+    }
+  }
+}
+
+#map {
+  width: 50%;
+  height: 250px;
 }
 
 .partners-grid {
@@ -81,6 +105,11 @@ export default {
 .partner-card {
   width: 300px;
   margin: 1rem;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .partner-image {
@@ -89,6 +118,11 @@ export default {
   object-fit: cover;
   border-radius: 15px;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 /* Styles for the form - replace with the actual form styles */
@@ -105,13 +139,10 @@ select {
   margin-bottom: 16px;
   resize: vertical;
   transition: border 0.3s;
-}
 
-input[type=text]:focus,
-input[type=email]:focus,
-textarea:focus,
-select:focus {
-  border: 1px solid #E37285;
+  &:focus {
+    border: 1px solid #E37285;
+  }
 }
 
 /* Responsive adjustments */
@@ -148,6 +179,22 @@ select:focus {
   .partner-card {
     width: 200px;
   }
+
+  .info-container {
+    flex-direction: column;
+  }
+
+  #map {
+    width: 100%;
+    height: 200px;
+  }
+
+  input[type=text],
+  input[type=email],
+  textarea,
+  select {
+    width: 90%;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -163,6 +210,13 @@ select:focus {
 
   .partner-card {
     width: 100%;
+  }
+
+  input[type=text],
+  input[type=email],
+  textarea,
+  select {
+    width: 85%;
   }
 }
 </style>
