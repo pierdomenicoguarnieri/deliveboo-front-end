@@ -55,12 +55,16 @@ export default {
       //pusho id piatto nel carrello
       //store.array_cart.push(dish.id);
       //store.totalItems++;
-
+      
       //console.log(store.array_cart);
-      if(store.totalItems > 0){
+      localStorage.clickcount = 1;
+      document.getElementById("demo").innerHTML = localStorage.clickcount;
+      console.log(localStorage.clickcount);
+      if(localStorage.clickcount > 0){
         addcartbutton.classList.add('d-none')
         changequantity.classList.remove('d-none')
-      }else if(store.totalItems == 0){
+        
+      }else if(localStorage.clickcount == 0){
         addcartbutton.classList.remove('d-none')
         changequantity.classList.add('d-none')
       }
@@ -79,7 +83,7 @@ export default {
       else {
           localStorage.setItem('totalPrice', dish.price);
           store.totalPrice = localStorage.totalPrice;
-          console.log(dish.price);
+          //console.log(store.totalPrice);
           
           localStorage.setItem('restaurantId', dish.restaurant_id);
           store.restaurantId = localStorage.restaurantId;
@@ -94,6 +98,23 @@ export default {
           store.quantity.push('1');
       }
     },
+    ////////////////////////////////////
+    clickCounter() {
+      if (localStorage.clickcount) {
+        store.counterQuantity = Number(localStorage.clickcount)-1;
+      }
+      //store.counterQuantity = localStorage.clickcount;
+      document.getElementById("demo").innerHTML = localStorage.clickcount;
+    },
+    clickCounterpiu() {
+      if (localStorage.clickcount) {
+        store.counterQuantity = Number(localStorage.clickcount)+1;
+      }
+      //store.counterQuantity = localStorage.clickcount;
+      document.getElementById("demo").innerHTML = localStorage.clickcount;
+    },
+
+    ////////////////////////////////////
     addCart(dish) {
         localStorage.setItem(`quantity%${dish.id}`, parseFloat(localStorage.getItem(`quantity%${dish.id}`)) + 1);
         localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
@@ -101,7 +122,6 @@ export default {
         console.log(localStorage.totalPrice);
         
         this.dishQuantity = localStorage.getItem(`quantity%[${dish.id}]`);
- 
         console.log(localStorage.getItem(`quantity%[${dish.id}]`));
         store.totalItems++;
         localStorage.totalItems = parseInt(parseInt(localStorage.totalItems) + 1);
@@ -194,9 +214,9 @@ export default {
                 id="changequantity"
                 >
                 
-                <button type="button" @click="removeCart(dish)">-</button>
-                  <span class="mx-2">{{ dishQuantity }}</span>
-                <button type="button" @click="addCart(dish)">+</button>
+                <button type="button" @click="clickCounter()">-</button>
+                  <span class="mx-2" id="demo"></span>
+                <button type="button" @click="clickCounterpiu()">+</button>
               </div>
 
             </div>

@@ -8,7 +8,7 @@ export const store = reactive({
   restaurantfilter: [],
   restaurant_backup: [],
   array_cart: [],
-  quantitY_dish: 0,
+  counterQuantity: 0,
 /*
   for (var i = 0; i < localStorage.length - 1; i++) {
       if (localStorage.key(i).includes("quantity")) {
