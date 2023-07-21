@@ -122,7 +122,7 @@ header {
             text-transform: uppercase;
             text-decoration: none;
             color: black;
-            font-size: calc(0.6rem + 0.8vw);
+            font-size: calc(0.22rem + 1.1vw);
             font-weight: bold;
             border-bottom: 3px solid transparent;
                 &:hover, &.active{

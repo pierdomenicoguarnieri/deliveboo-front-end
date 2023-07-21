@@ -16,8 +16,8 @@ export default {
       <div class="text d-flex flex-column">
         <h3 class="dish-name">{{ dish.name }}</h3>
         <p v-html="dish.description" class="dish-description mb-0"></p>
-        <p class="dish-ingredients">Ingredienti: {{ dish.ingredients }}</p>
-        <p>Prezzo: {{ dish.price.toFixed(2) }} &euro;</p>
+        <p class="dish-ingredients"><i class="fa-solid fa-utensils"></i> {{ dish.ingredients }}</p>
+        <p><i class="fa-solid fa-money-bill-wave"></i> {{ dish.price.toFixed(2) }} &euro;</p>
       </div>
     </div>
   </div>

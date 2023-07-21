@@ -37,18 +37,14 @@ export default {
     <Loading v-if="!store.loaded"/>
     <div class="restaurant-detail" v-else>
       <div class="header-card rounded-5">
-        <div class="header-card-image w-25">
+        <div class="header-card-image">
           <img :src="restaurant.image_path" class="object-fit-cover rounded-5 w-100" :alt="restaurant.name" />
         </div>
         <div class="header-card-info">
           <h1>{{ restaurant.name }}</h1>
-          <p>Indirizzo: {{ restaurant.address }}</p>
-          <p>Telefono: {{ restaurant["telephone-number"] }}</p>
-          <p>Email: {{ restaurant.email }}</p>
-          <p>Voto: {{ restaurant.rating }}</p>
-          <div class="user-rating">
-            <!-- <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/> -->
-          </div>
+          <p><i class="fa-solid fa-location-dot"></i> {{ restaurant.address }}</p>
+          <p><i class="fa-solid fa-phone"></i> {{ restaurant.telephone_number }}</p>
+          <p><i class="fa-solid fa-location-dot"></i> {{ restaurant.email }}</p>
         </div>
       </div>
       <section class="dishes-section">
@@ -67,6 +63,13 @@ export default {
 <style lang="scss" scoped>
 @use '../../scss/partials/variables' as *;
 
+
+h2{
+  color: $tertiary_color;
+  margin-left: 10px;
+  font-size: 3rem;
+  font-weight: 700;
+}
 .detail-wrapper{
   background-color: rgba(white, 0.6);
 }
@@ -90,42 +93,29 @@ export default {
   margin-bottom: 2rem;
 }
 
-.header-card-image img {
-  width: 100%;
+.header-card-image{
+  width: 300px;
   height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
 }
 
 .header-card-info {
+  h1{
+    margin-bottom: 20px;
+  }
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-left: 40px;
 }
 
 .dishes-section {
   grid-column: 1 / span 12;
-}
-
-.dishes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1rem;
-}
-
-.dish-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  transition: transform 0.3s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-  }
 }
 
 .row{
@@ -136,30 +126,36 @@ export default {
   }
 }
 
-.dish-card-image img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
 @media (max-width: 992px) {
-  .dishes-grid {
-    grid-template-columns: repeat(2, 1fr);
+
+  .header-card-image{
+    width: 250px;
   }
 
-  .header-card-image img {
-    height: 150px;
+  .header-card-info {
+    margin-left: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .dishes-grid {
-    grid-template-columns: 1fr;
+  h2{
+    font-size: calc(2rem + 1vw);
   }
 
-  .header-card-image img {
-    height: 100px;
+  .header-card-image{
+    width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-card-image{
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .header-card-info {
+    margin-top: 20px;
+    margin-left: 10px;
   }
 }
 </style>
