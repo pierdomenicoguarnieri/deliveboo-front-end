@@ -38,6 +38,9 @@ export default {
                     <li>
                         <router-link :to="{name:'contacts'}">contatti</router-link>
                     </li>
+                    <li>
+                        <a href="http://127.0.0.1:8000/admin">Dashboard</a>
+                    </li>
                 </ul>
             </nav>
             <div class="d-md-none h-100">
