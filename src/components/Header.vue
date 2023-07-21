@@ -8,7 +8,10 @@ export default {
     },
     methods: {
         toggleDropdown() {
-            this.showDropdown = !this.showDropdown;
+            const dropdown = document.getElementById('boo-dropdown')
+            const dropdown_sm = document.getElementById('boo-dropdown-sm')
+            dropdown.classList.contains('hidden') ? dropdown.classList.remove('hidden') : dropdown.classList.add('hidden')
+            dropdown_sm.classList.contains('hidden') ? dropdown_sm.classList.remove('hidden') : dropdown_sm.classList.add('hidden')
         }
     }
 }
@@ -41,9 +44,15 @@ export default {
                     <li>
                         <a href="http://127.0.0.1:8000/admin">Dashboard</a>
                     </li>
+                    <div class="boo-dropdown position-relative">
+                        <i class="fa-solid fa-cart-shopping fs-5" @click="toggleDropdown()"></i>
+                        <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi temporibus nisi aut nobis, officiis illum obcaecati provident iste totam eum ut mollitia debitis. Ducimus odio officiis voluptatibus labore facilis doloribus.
+                        </div>
+                    </div>
                 </ul>
             </nav>
-            <div class="d-md-none h-100">
+            <div class="d-md-none d-flex align-items-center h-100">
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -65,6 +74,13 @@ export default {
                                 <router-link :to="{name:'contacts'}">contatti</router-link>
                             </li>
                         </ul>
+                    </div>
+                </div>
+
+                <div class="boo-dropdown position-relative ms-2">
+                    <i class="fa-solid fa-cart-shopping fs-3" @click="toggleDropdown()"></i>
+                    <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown-sm">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi temporibus nisi aut nobis, officiis illum obcaecati provident iste totam eum ut mollitia debitis. Ducimus odio officiis voluptatibus labore facilis doloribus.
                     </div>
                 </div>
 
@@ -106,6 +122,29 @@ header {
                     border-bottom: 3px solid $tertiary_color;
                 }
             }
+        }
+    }
+}
+
+.boo-dropdown{
+    cursor: pointer;
+    .boo-dropdown-body{
+        z-index: 999;
+        background-color: $custom_white;
+        padding: 10px 20px;
+        min-height: 150px;
+        max-height: 300px;
+        width: 250px;
+        overflow-x: scroll;
+        right: -10px;
+        top: 55px;
+        border-radius: 0 0 20px 20px;
+        border: 1px solid $custom_black;
+        box-shadow: 0 10px 30px rgba($custom_black, 0.3);
+        transition: all .5s;
+        &.hidden{
+            top: -400px;
+            opacity: 0;
         }
     }
 }
