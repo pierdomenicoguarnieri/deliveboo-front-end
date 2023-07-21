@@ -71,6 +71,14 @@ export default {
       }else{
         check.classList.remove('active')
       }
+    },
+
+    resetActive(){
+      const typologies_buttons = document.querySelectorAll('.typology');
+
+      typologies_buttons.forEach(typology => {
+        if(typology.classList.contains('active')) typology.classList.remove('active');
+      });
     }
 
   },
@@ -92,10 +100,10 @@ export default {
     <div class="container">
       <div class="container-types d-flex flex-wrap justify-content-center mb-2">
         <div class="type-container p-3" v-for="(type, index) in store.types" :key="index">
-          <span class="fw-bold" :id="type.id" @click="getTypeId(type.id), checkActive(type.id)">{{ type.name }}</span>
+          <span class="fw-bold typology" :id="type.id" @click="getTypeId(type.id), checkActive(type.id)">{{ type.name }}</span>
         </div>
         <div class="btn-container p-3">
-          <span class="reset fw-bold mb-5" @click="store.types_id = [], store.restaurants = store.restaurant_backup">
+          <span class="reset fw-bold mb-5" @click="store.types_id = [], store.restaurants = store.restaurant_backup, resetActive()">
             Reset
           </span>
         </div>
