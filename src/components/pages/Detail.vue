@@ -2,6 +2,8 @@
 import {store} from '../../store/store';
 import axios from 'axios';
 import Stars from '../partials/Stars.vue';
+import Loading from '../partials/Loading.vue';
+import DishCard from '../partials/DishCard.vue';
 export default {
   data(){
     return{
@@ -10,13 +12,17 @@ export default {
     }
   },
   components:{
-    Stars
+    Stars,
+    Loading,
+    DishCard
   },
   methods:{
     getRestaurant(endpoint){
+      store.loaded = false;
       axios.get(store.apiUrl + endpoint)
       .then(results => {
         this.restaurant = results.data;
+        store.loaded = true;
       })
     } 
   },
@@ -27,43 +33,43 @@ export default {
 </script>
 
 <template>
-  <div class="restaurant-detail">
-    <div class="header-card">
-      <div class="header-card-image w-25">
-        <img :src="restaurant.image_path" class="object-fit-cover w-100" :alt="restaurant.name" />
-      </div>
-      <div class="header-card-info">
-        <h1>{{ restaurant.name }}</h1>
-        <p>Indirizzo: {{ restaurant.address }}</p>
-        <p>Telefono: {{ restaurant["telephone-number"] }}</p>
-        <p>Email: {{ restaurant.email }}</p>
-        <p>Voto: {{ restaurant.rating }}</p>
-        <div class="user-rating">
-          <!-- <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/> -->
+  <div class="detail-wrapper mvh-100">
+    <Loading v-if="!store.loaded"/>
+    <div class="restaurant-detail" v-else>
+      <div class="header-card rounded-5">
+        <div class="header-card-image w-25">
+          <img :src="restaurant.image_path" class="object-fit-cover rounded-5 w-100" :alt="restaurant.name" />
+        </div>
+        <div class="header-card-info">
+          <h1>{{ restaurant.name }}</h1>
+          <p>Indirizzo: {{ restaurant.address }}</p>
+          <p>Telefono: {{ restaurant["telephone-number"] }}</p>
+          <p>Email: {{ restaurant.email }}</p>
+          <p>Voto: {{ restaurant.rating }}</p>
+          <div class="user-rating">
+            <!-- <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/> -->
+          </div>
         </div>
       </div>
+      <section class="dishes-section">
+        <h2>I nostri piatti</h2>
+        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
+          <div class="col" v-for="dish in restaurant.dishes" :key="dish.id">
+            <DishCard :dish="dish"/>
+          </div>
+        </div>
+      </section>
     </div>
-    <section class="dishes-section">
-      <h2>I nostri piatti</h2>
-      <div class="dishes-grid">
-        <div class="dish-card" v-for="dish in restaurant.dishes" :key="dish.id">
-          <div class="dish-card-image w-50">
-            <img :src="dish.image_path" class="w-100 object-fit-cover" :alt="dish.name" />
-          </div>
-          <div class="dish-card-info">
-            <h3>{{ dish.name }}</h3>
-            <p v-html="dish.description"></p>
-            <p>Ingredienti: {{ dish.ingredients }}</p>
-            <p>Prezzo: {{ dish.price }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
 
 <style lang="scss" scoped>
+@use '../../scss/partials/variables' as *;
+
+.detail-wrapper{
+  background-color: rgba(white, 0.6);
+}
 .restaurant-detail {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -77,7 +83,7 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  background-color: #f9f9f9;
+  background-color: rgba($custom_white, 0.8);
   padding: 1rem;
   border-radius: 5px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
@@ -112,7 +118,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f9f9f9;
   border-radius: 5px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
   padding: 1rem;
@@ -120,6 +125,14 @@ export default {
 
   &:hover {
     transform: scale(1.05);
+  }
+}
+
+.row{
+  padding-top: 30px;
+  .col{
+    height: 470px;
+    margin-bottom: 50px;
   }
 }
 

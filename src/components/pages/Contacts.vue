@@ -49,7 +49,7 @@
 <style scoped lang="scss">
 .contacts-container-inner {
   padding: 2rem;
-  background-color: #f0ebe9;
+  background-color: rgba(white, 0.6);
   color: #65605F;
   text-align: center;
   font-family: Arial, sans-serif;
