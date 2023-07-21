@@ -10,7 +10,7 @@ export default {
 
 <template>
   <div class="d-flex align-items-center">
-    <img src="img/Ghost_White_Chef_Hat_White.svg">
+    <img src="img/Ghost_White_Chef_Hat_White.svg" v-show="rating > 0">
     <img src="img/Ghost_White_Chef_Hat_White.svg" v-for="number in  (rating - 1)"  v-show="rating > 0" :key="number">
     <img src="img/Ghost_White_Chef_Hat_White_Half.svg" v-if="originalRating !== rating" v-show="rating > 0">
     <span class="ms-3 text-dark">({{ originalRating.toFixed(2) }})</span>
