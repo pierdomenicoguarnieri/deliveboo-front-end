@@ -5,8 +5,7 @@ import Contacts from './components/pages/Contacts.vue';
 import About from './components/pages/About.vue';
 import Detail from './components/pages/Detail.vue';
 import Error404 from './components/pages/Error404.vue';
-
-
+import Cart from './components/partials/Cart.vue';
 
 
 const router = createRouter({
@@ -34,6 +33,12 @@ const router = createRouter({
             path: '/about',
             name: 'about',
             component: About
+        },
+          //Add for Cart
+        {
+            path: '/carrello',
+            name: 'cart',
+            component: Cart,
         },
         {
             path: '/restaurant-detail/:slug',

@@ -9,4 +9,6 @@ export const store = reactive({
   types_id: [],
   restaurantfilter: [],
   restaurant_backup: [],
+  error: false,
+  loaded: false,
 })
