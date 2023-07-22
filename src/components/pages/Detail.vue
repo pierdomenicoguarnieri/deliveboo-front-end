@@ -2,9 +2,7 @@
 import {store} from '../../store/store';
 import axios from 'axios';
 import Stars from '../partials/Stars.vue';
-import { compileString } from 'sass';
 import Loading from '../partials/Loading.vue';
-import DishCard from '../partials/DishCard.vue';
 
 export default {
   name: 'Detail',
@@ -19,7 +17,6 @@ export default {
   components:{
     Stars,
     Loading,
-    DishCard
   },
   methods:{
     getRestaurant(endpoint){
@@ -156,16 +153,18 @@ export default {
     },
 
     checkInCart(){
-      if(localStorage.getItem('totalPrice')){
-        let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
-        arraydishes.forEach(dish => {
-          let add = document.getElementById('add' + dish.id);
-          let change = document.getElementById('changequantity' + dish.id);
-          add.classList.add('d-none');
-          change.classList.remove('d-none');
-          this.printDishQuantity(dish)
-        });
-      }
+      setTimeout(() => {
+        if(localStorage.getItem('totalPrice')){
+          let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+          arraydishes.forEach(dish => {
+            let add = document.getElementById('add' + dish.id);
+            let change = document.getElementById('changequantity' + dish.id);
+            add.classList.add('d-none');
+            change.classList.remove('d-none');
+            this.printDishQuantity(dish)
+          });
+        }
+      }, 100);
     }
   },
   mounted(){
@@ -194,23 +193,36 @@ export default {
         <h2>I nostri piatti</h2>
         <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
           <div class="col" v-for="dish in restaurant.dishes" :key="dish.id">
-            <DishCard :dish="dish"/>
-                          <button 
-                type="button" 
-                class="btn btn-primary" 
-                :id="'add' + dish.id"
-                @click="AddToCart(dish)">
-                Aggiungi al carrello
-              </button>
-              <div 
-                class="btn d-none" 
-                :id="'changequantity' + dish.id"
-                >
-                
-                <button type="button" class="btn btn-danger" @click="removeCart(dish)"><i class="fa-solid fa-minus"></i></button>
-                  <span class="mx-2" :id="'quantity' + dish.id"></span>
-                <button type="button" class="btn btn-success" @click="addCart(dish)"><i class="fa-solid fa-plus"></i></button>
+            <div class="boo-card rounded-5">
+              <div class="card-body">
+                <div class="dish-image-wrapper">
+                  <img :src="dish.image_path" class="dish-image" :alt="dish.name" />
+                </div>
+                <div class="text d-flex flex-column justify-content-between">
+                  <div class="infos">
+                    <h3 class="dish-name">{{ dish.name }}</h3>
+                    <p v-html="dish.description" class="dish-description mb-0"></p>
+                    <p class="dish-ingredients"><i class="fa-solid fa-utensils"></i> {{ dish.ingredients }}</p>
+                    <p><i class="fa-solid fa-money-bill-wave"></i> {{ dish.price.toFixed(2) }} &euro;</p>
+                  </div>
+
+                  <div class="btn-container d-flex justify-content-center">
+                    <button 
+                      type="button" 
+                      class="btn btn-primary" 
+                      :id="'add' + dish.id"
+                      @click="AddToCart(dish)">
+                      Aggiungi al carrello
+                    </button>
+                    <div class="d-none" :id="'changequantity' + dish.id">
+                      <button type="button" class="btn btn-danger" @click="removeCart(dish)"><i class="fa-solid fa-minus"></i></button>
+                        <span class="mx-2" :id="'quantity' + dish.id"></span>
+                      <button type="button" class="btn btn-success" @click="addCart(dish)"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
         </div>
       </section>
@@ -220,8 +232,50 @@ export default {
 
 
 <style lang="scss" scoped>
+
 @use '../../scss/partials/variables' as *;
 
+  .boo-card{
+    box-shadow: 5px 5px 20px rgba($custom_black, 0.5);
+    color: $custom_black;
+    overflow: hidden;
+    height: 100%;
+    .card-body{
+      height: 100%;
+      background-color: rgba($custom_white, 0.8);
+      .text{
+        padding: 20px;
+        height: calc(100% - 200px);
+        overflow-y: auto;
+        p{
+          margin-bottom: 10px;
+        }
+        .dish-name, .dish-ingredients{
+          white-space: nowrap;
+          display: inline-block;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-height: 35px;
+          cursor: default;
+          transition: all 1s;
+          &:hover, &:hover{
+            white-space: break-spaces;
+            max-width: none;
+            max-height: 200px;
+          }
+        }
+      }
+      .dish-image-wrapper{
+        height: 200px;
+        .dish-image{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
 
 h2{
   color: $tertiary_color;
@@ -280,7 +334,7 @@ h2{
 .row{
   padding-top: 30px;
   .col{
-    height: 470px;
+    height: 500px;
     margin-bottom: 50px;
   }
 }
