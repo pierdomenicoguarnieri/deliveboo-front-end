@@ -29,156 +29,113 @@ export default {
         }, 200);
       })
     },
-    /*
-    cart(id){
-      const addcartbutton = document.getElementById('addcartbutton');
-      const changequantity = document.getElementById('changequantity');
-      //pusho id piatto nel carrello
-      store.array_cart.push(id);
-      store.totalItems++;
-
-      console.log(store.array_cart);
-      if(store.totalItems > 0){
-        addcartbutton.classList.add('d-none')
-        changequantity.classList.remove('d-none')
-      }else if(store.totalItems == 0){
-        addcartbutton.classList.remove('d-none')
-        changequantity.classList.add('d-none')
-      }
-    },
-    */
 
     AddToCart(dish) {
       const addcartbutton = document.getElementById('add' + dish.id);
       const changequantity = document.getElementById('changequantity' + dish.id);
       let arraydishes = [];
-      let lastDish = localStorage.getItem('lastDish');
-      //Al click del bottone il bottone add to cart va in d-none e compaiono i bottoni per modificare la quantità
 
-      //questa dove va?
-      // localStorage.clear();
-      
-      //Se totalPrice esiste
+      //Se totalPrice esiste aggiungiamo un piatto
       if (localStorage.totalPrice) {
-        //Controllo che il ristorante da cui sta acquistando sia corretto
-          if (localStorage.restaurantId != dish.restaurant_id) {
-              store.error = true;
-              store.lastDish = dish;
-              return;
-          }
-          //localStorage.arraydishes = setItem('arraydishes', store.arraydishes);
+        //Controllo che il ristorante da cui sta acquistando sia lo stesso
+        if (localStorage.restaurantId != dish.restaurant_id) {
+            store.error = true;
+            return;
+        }
 
-          arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
-          
-          localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
+        // Salvo nell'array quello che c'è su localStorage
+        arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
 
-          if(arraydishes[parseInt(lastDish)].id == dish.id){
-            arraydishes[lastDish].counterQuantity++;
-          }else{
-            lastDish++;
-            arraydishes[lastDish] = {
-              id : dish.id,
-              dish : dish,
-              counterQuantity : 1,
-            }
-            localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
-          }
-          localStorage.setItem('lastDish', lastDish);
-          console.log(localStorage);
-          //Aggiuno 1 al counter localstorage
-          //localStorage.counterQuantity = parseInt(parseInt(localStorage.counterQuantity) + 1);
-      }
-       //Se totalPrice NON esiste
-      else {
-          //Prendo totalPrice con chiave=>valore dal localstorage
-          localStorage.setItem('totalPrice', dish.price);
-          store.totalPrice = localStorage.totalPrice;
-          
-          //Prendo l'id del ristorante collegato al piatto che ho aggiunto con chiave=>valore dal localstorage
-          localStorage.setItem('restaurantId', dish.restaurant_id);
-          store.restaurantId = localStorage.restaurantId;
-          
-          //Il counter della quantità lo metto = 0
-          arraydishes[0] = {
+        // Aggiorniamo il prezzo totale
+        localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
+
+        // Se il piatto è già inserito, ne aumentiamo la quantità
+        if(arraydishes[(arraydishes.length) - 1].id == dish.id){
+          arraydishes[(arraydishes.length) - 1].counterQuantity++;
+        }else{
+          // Inseriamo un nuovo piatto nell'array
+          arraydishes[arraydishes.length] = {
             id : dish.id,
             dish : dish,
             counterQuantity : 1,
           }
-          localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
-          localStorage.setItem('lastDish', 0);
-          //localStorage.setItem('counterQuantity', 1);
-          //console.log('counter',localStorage.counterQuantity);         
-          console.log(arraydishes);         
-          console.log(localStorage);
-      }
 
-      if(arraydishes[parseInt(localStorage.getItem('lastDish'))]){
-        addcartbutton.classList.add('d-none')
-        changequantity.classList.remove('d-none')
-        this.printDishQuantity(dish);
-      }else if(arraydishes[parseInt(localStorage.getItem('lastDish'))] === 0){
-        addcartbutton.classList.remove('d-none')
-        changequantity.classList.add('d-none')
+          // Aggiorniamo localStorage
+          localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
+        }
+      // Se totalPrice NON esiste
+      }else{
+
+        // Setto totalPrice con chiave=>valore dal localStorage
+        localStorage.setItem('totalPrice', dish.price);
+        
+        // Prendo l'id del ristorante collegato al piatto che ho aggiunto con chiave=>valore dal localStorage
+        localStorage.setItem('restaurantId', dish.restaurant_id);
+
+        // Il counter della quantità lo metto = 1 e creo l'ggetto del piatto
+        arraydishes[0] = {
+          id : dish.id,
+          dish : dish,
+          counterQuantity : 1,
+        }
+
+        // Salvo l'array in localStorage
+        localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
       }
+        //Al click del bottone il bottone add to cart va in d-none e compaiono i bottoni per modificare la quantità
+        this.checkInCart();
     },
-    
 
     addCart(dish) {
-        //console.log(parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2));
-        console.log(dish.price);
-        console.log(store.totalPrice);
-        localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
+      // Salvo il localStorage in un array
+      let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
 
-        //store.totalPrice = localStorage.totalPrice;
-        
-
-        
-        //store.counterQuantity = localStorage.getItem(`quantity%[${dish.id}]`);
-        //console.log(localStorage.getItem(`quantity%[${dish.id}]`));
-        //Al click incremento il contatore della quantità
-        store.counterQuantity++;
-        localStorage.counterQuantity = parseInt(parseInt(localStorage.counterQuantity) + 1);
-        //Restituisce l'indice del dell'id chegli sto passando e incremento la quantità nell'array quantity
-        const index = store.ids.indexOf(dish.id);
-        if(index != -1){
-          store.quantity[index]++;
+      // Ciclo l'array ed aggiungo +1 alla quantità e modifico il prezzo totale
+      arraydishes.forEach(array_dish => {
+        if(array_dish.id == dish.id){
+          array_dish.counterQuantity++;
+          localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
         }
-          
+      });
+
+      // Salvo l'array aggiornato in localStorage
+      localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
+
+      // Chiamo la funzione per stampare le quantità nell'HTML
+      this.printDishQuantity(dish);
     },
 
     removeCart(dish) {
-      localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price).toFixed(2);
+      // Salvo il localStorage in un array
+      let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
 
-      //store.totalPrice = localStorage.totalPrice;
-
-      const index = store.ids.indexOf(dish.id);
-      store.counterQuantity--;
-      localStorage.counterQuantity = parseInt(parseInt(localStorage.counterQuantity) - 1);
-
-      // se ha quantità 1
-      if(this.counterQuantity == 1) {
-          // rimuovo l'id dall'array id dello store
-          store.ids.splice(index, 1);
-          // rimuovo la quantità dall'array quantity dello store
-          store.quantity.splice(index, 1);
-          // lo rimuovo dal localStorage
-          localStorage.removeItem(`quantity%${dish.id}`)
-          // se non sono rimasti altri piati
-          if(!store.counterQuantity) {
-              // svuoto lo store
-              localStorage.clear();
-              store.restaurantId = null;
+      // Ciclo l'array
+      arraydishes.forEach((array_dish, index) => {
+        if(array_dish.id == dish.id){
+          // Se il piatto ha una quantità maggiore di 1 rimuovo 1 alla quantità e modifico il prezzo totale
+          if(array_dish.counterQuantity > 1){
+            array_dish.counterQuantity--;
+            localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price).toFixed(2);
+            // Altrimenti se è pari ad uno e cerco di rimuoverne un altro, lo elimino dall'array. modifico il prezzo e rimetto visibile il pulsante per aggiungere al carrello
+          }else{
+            arraydishes.splice(index, 1);
+            localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price).toFixed(2);
+            const add = document.getElementById('add' + array_dish.id);
+            const change = document.getElementById('changequantity' + array_dish.id);
+            add.classList.remove('d-none');
+            change.classList.add('d-none');
           }
-      }
-      // altrimenti
-      else {
-          // tolgo 1 alla quantità nel localStorage
-          localStorage.setItem(`quantity%${dish.id}`, parseFloat(localStorage.getItem(`quantity%${dish.id}`)) - 1);
-          // tolgo 1 al plateQuantity
-          this.counterQuantity = localStorage.getItem(`quantity%${dish.id}`);
-            if(index != -1)
-            // tolgo 1 alla sua quantity nello store
-              store.quantity[index]--;
+        }
+      });
+
+      // Se l'array dei piatti è vuoto svuoto il localStorage
+      if(arraydishes.length === 0){
+        localStorage.clear();
+
+        // Altrimenti aggiorno il localStorage e stampo le nuove quantità nell'HTML
+      }else{
+        localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
+        this.printDishQuantity(dish);
       }
     },
 
@@ -208,11 +165,6 @@ export default {
   },
   mounted(){
     this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);
-    /*const index = store.ids.indexOf(this.dish['id']);
-      if(index != -1){
-        this.counterQuantity = store.quantity[index];
-      }*/
-                
   }
 }
 
@@ -252,17 +204,17 @@ export default {
                 type="button" 
                 class="btn btn-primary" 
                 :id="'add' + dish.id"
-                @click="AddToCart(dish)">Add to Cart
-                
+                @click="AddToCart(dish)">
+                Aggiungi al carrello
               </button>
               <div 
                 class="btn d-none" 
                 :id="'changequantity' + dish.id"
                 >
                 
-                <button type="button" @click="removeCart(dish)">-</button>
+                <button type="button" class="btn btn-danger" @click="removeCart(dish)"><i class="fa-solid fa-minus"></i></button>
                   <span class="mx-2" :id="'quantity' + dish.id"></span>
-                <button type="button" @click="addCart(dish)">+</button>
+                <button type="button" class="btn btn-success" @click="addCart(dish)"><i class="fa-solid fa-plus"></i></button>
               </div>
 
             </div>
