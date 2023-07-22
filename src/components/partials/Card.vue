@@ -37,9 +37,6 @@ export default {
       height: 100%;
       background-color: rgba($custom_white, 0.8);
       .text{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
         padding: 10px;
         height: calc(100% - 200px);
         overflow-y: auto;

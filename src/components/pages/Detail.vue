@@ -39,7 +39,7 @@ export default {
 
       //Se totalPrice esiste aggiungiamo un piatto
       if (localStorage.totalPrice) {
-        //Controllo che il ristorante da cui sta acquistando sia lo stesso
+        // Controllo che il ristorante da cui sta acquistando sia lo stesso
         if (localStorage.restaurantId != dish.restaurant_id) {
             store.error = true;
             return;
@@ -186,7 +186,7 @@ export default {
           <h1>{{ restaurant.name }}</h1>
           <p><i class="fa-solid fa-location-dot"></i> {{ restaurant.address }}</p>
           <p><i class="fa-solid fa-phone"></i> {{ restaurant.telephone_number }}</p>
-          <p><i class="fa-solid fa-location-dot"></i> {{ restaurant.email }}</p>
+          <p><i class="fa-solid fa-envelope"></i> {{ restaurant.email }}</p>
         </div>
       </div>
       <section class="dishes-section">
@@ -334,7 +334,7 @@ h2{
 .row{
   padding-top: 30px;
   .col{
-    height: 500px;
+    height: 550px;
     margin-bottom: 50px;
   }
 }
