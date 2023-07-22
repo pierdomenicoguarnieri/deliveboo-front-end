@@ -1,3 +1,21 @@
 body {
   font-family: $primary_font, $secondary_font, $tertiary_font;
+  min-height: 100vh;
+  background: rgb(252,105,76);
+  background: linear-gradient(320deg, rgba(252,105,76,1) 0%, rgba(252,76,105,1) 100%);
+  &.padding{
+    padding: 40px 60px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body.padding {
+    padding: 20px 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  body.padding {
+    padding: 10px 10px;
+  }
 }
