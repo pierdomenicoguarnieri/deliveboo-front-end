@@ -20,6 +20,9 @@ export const store = reactive({
 
   error: false,
   //lastDish: localStorage.getItem('lastDish') || 0,
+  loaded: false,
+
+  buttons: [],
   
   quantity: [],
   totalPrice: localStorage.getItem('totalPrice') || 0,

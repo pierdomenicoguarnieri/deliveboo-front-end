@@ -2,6 +2,7 @@
 import {store} from '../../store/store';
 import axios from 'axios';
 import Stars from '../partials/Stars.vue';
+import { compileString } from 'sass';
 export default {
   name: 'Detail',
   data(){
@@ -17,10 +18,15 @@ export default {
   },
   methods:{
     getRestaurant(endpoint){
+      store.loaded = false; 
+      store.done = false; 
       axios.get(store.apiUrl + endpoint)
       .then(results => {
         this.restaurant = results.data;
-
+        setTimeout(() => {
+          store.loaded = true;
+          this.checkInCart();
+        }, 200);
       })
     },
     /*
@@ -43,14 +49,14 @@ export default {
     */
 
     AddToCart(dish) {
-      const addcartbutton = document.getElementById(dish.id);
-      const changequantity = document.getElementById('changequantity');
+      const addcartbutton = document.getElementById('add' + dish.id);
+      const changequantity = document.getElementById('changequantity' + dish.id);
       let arraydishes = [];
-      console.log(dish.id);
+      let lastDish = localStorage.getItem('lastDish');
       //Al click del bottone il bottone add to cart va in d-none e compaiono i bottoni per modificare la quantità
 
       //questa dove va?
-      localStorage.clear();
+      // localStorage.clear();
       
       //Se totalPrice esiste
       if (localStorage.totalPrice) {
@@ -61,30 +67,24 @@ export default {
               return;
           }
           //localStorage.arraydishes = setItem('arraydishes', store.arraydishes);
-          console.log(localStorage.arraydishes);
+
+          arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
           
           localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
 
-          store.totalPrice = localStorage.totalPrice;
-          const lastDish = localStorage.setItem('lastDish', 0);
-
-          if(localStorage.arraydishes[lastDish].id == dish.id){
-            localStorage.arraydishes[lastDish].counterQuantity++;
+          if(arraydishes[parseInt(lastDish)].id == dish.id){
+            arraydishes[lastDish].counterQuantity++;
           }else{
             lastDish++;
-            localStorage.arraydishes[store.lastDish] = 
-            {
-              id : dish.id, 
-              dish: dish, 
-              counterQuantity : 1
-            };
-              arraydishes[lastDish] = {
+            arraydishes[lastDish] = {
               id : dish.id,
               dish : dish,
               counterQuantity : 1,
             }
             localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
-            }
+          }
+          localStorage.setItem('lastDish', lastDish);
+          console.log(localStorage);
           //Aggiuno 1 al counter localstorage
           //localStorage.counterQuantity = parseInt(parseInt(localStorage.counterQuantity) + 1);
       }
@@ -105,38 +105,25 @@ export default {
             counterQuantity : 1,
           }
           localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
+          localStorage.setItem('lastDish', 0);
           //localStorage.setItem('counterQuantity', 1);
           //console.log('counter',localStorage.counterQuantity);         
           console.log(arraydishes);         
           console.log(localStorage);
       }
-      
-      //Se la quantità di quell'id del piatto è presente 
-      if (store.arraydishes.includes(store.dish)){
-        localStorage.setItem(`quantity%${dish.id}`, parseFloat(localStorage.getItem(`quantity%${dish.id}`)) + 1);
-      }
-      //Altrimenti pusho l'id del piatto nell'array quantity
-      else {
-          localStorage.setItem(`quantity%${dish.id}`, 1);
-          store.ids.push(dish.id);
-          store.quantity.push('1');
-      }
 
-      if(store.counterQuantity > 0){
+      if(arraydishes[parseInt(localStorage.getItem('lastDish'))]){
         addcartbutton.classList.add('d-none')
         changequantity.classList.remove('d-none')
-        
-      }else if(store.counterQuantity == 0){
+        this.printDishQuantity(dish);
+      }else if(arraydishes[parseInt(localStorage.getItem('lastDish'))] === 0){
         addcartbutton.classList.remove('d-none')
         changequantity.classList.add('d-none')
       }
-      console.log(store.counterQuantity);
     },
     
 
     addCart(dish) {
-        console.log('id piatto',dish.id);
-        localStorage.setItem(`quantity%${dish.id}`, parseFloat(localStorage.getItem(`quantity%${dish.id}`)) + 1);
         //console.log(parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2));
         console.log(dish.price);
         console.log(store.totalPrice);
@@ -193,11 +180,34 @@ export default {
             // tolgo 1 alla sua quantity nello store
               store.quantity[index]--;
       }
+    },
+
+    printDishQuantity(dish){
+      let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+
+      arraydishes.forEach(dish_from_array => {
+        if(dish.id == dish_from_array.id){
+          let quantity = document.getElementById('quantity' +  dish.id);
+          quantity.innerHTML = dish_from_array.counterQuantity;
+        }
+      });
+    },
+
+    checkInCart(){
+      if(localStorage.getItem('totalPrice')){
+        let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+        arraydishes.forEach(dish => {
+          let add = document.getElementById('add' + dish.id);
+          let change = document.getElementById('changequantity' + dish.id);
+          add.classList.add('d-none');
+          change.classList.remove('d-none');
+          this.printDishQuantity(dish)
+        });
+      }
     }
   },
   mounted(){
-    this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);  
-    
+    this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);
     /*const index = store.ids.indexOf(this.dish['id']);
       if(index != -1){
         this.counterQuantity = store.quantity[index];
@@ -209,7 +219,7 @@ export default {
 </script>
 
 <template>
-  <div class="restaurant-detail">
+  <div class="restaurant-detail" v-show="store.loaded">
     <div class="header-card">
       <div class="header-card-image w-25">
         <img :src="restaurant.image_path" class="object-fit-cover w-100" :alt="restaurant.name" />
@@ -241,17 +251,17 @@ export default {
               <button 
                 type="button" 
                 class="btn btn-primary" 
-                :id="dish.id"
+                :id="'add' + dish.id"
                 @click="AddToCart(dish)">Add to Cart
                 
               </button>
               <div 
                 class="btn d-none" 
-                id="changequantity"
+                :id="'changequantity' + dish.id"
                 >
                 
                 <button type="button" @click="removeCart(dish)">-</button>
-                  <span class="mx-2">{{store.counterQuantity}}</span>
+                  <span class="mx-2" :id="'quantity' + dish.id"></span>
                 <button type="button" @click="addCart(dish)">+</button>
               </div>
 
