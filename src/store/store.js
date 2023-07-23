@@ -11,4 +11,5 @@ export const store = reactive({
   restaurant_backup: [],
   error: false,
   loaded: false,
+  restaurantId: localStorage.getItem('restaurantId'),
 })

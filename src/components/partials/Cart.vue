@@ -2,123 +2,150 @@
 import {store} from '../../store/store';
 import axios from 'axios';
 export default {
+    name: 'Cart',
+    
     data() {
         return {
-            dishes: "",
-            restaurant: "",
-            empty: false,
+            store,
+            restaurant: [],
+            //arraydishes: [],
+            //dishes: "",
+            //restaurant: "",
         };
     },
     computed: {
+        /*
         totalPrice() {
-            return store.totalPrice;
+           // return store.totalPrice;
         },
         quantity() {
-            return store.quantity;
+            //return store.quantity;
         },
-        ids() {
-            return store.ids;
-        }
+        arraydishes() {
+            return JSON.parse(localStorage.getItem('arraydishes'));
+        }*/
     },
     methods: {
         /*
-        fetchPlates() {
-            axios.get(store.apiUrl + `cart/dishes/${this.ids}`)
-                .then(result => {
-                    this.dishes = result.data.dishes;
-                    if (!this.dishes)
-                        this.empty = true;
-                    this.restaurant = result.data.restaurant;
-                }).catch(err => {
-                    console.log(err);
-                    //redirect to 404
-                    //this.$router.push({ name: "404" });
-                });
+        getRestaurant(endpoint){
+            store.loaded = false; 
+            store.done = false; 
+            axios.get(store.apiUrl + endpoint)
+            .then(results => {
+                this.restaurant = results.data;
+                console.log(this.restaurant);
+            })
+        },*/
+        
+        fetchDishes() {
+            //let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+            // axios.get(store.apiUrl + 'cart/dishes/' . $arraydishes)
+            //     .then(result => {
+            //         console.log(result);
+            //         console.log(result.data);
+            //         this.dishes = result.data.dishes;
+            //         this.restaurant = localStorage.setItem('restaurantId', dish.restaurant_id);
+            //     })
         },
         clearCart() {
             localStorage.clear();
-            store.restaurantId = localStorage.getItem('restaurantId');
-            store.totalItems = localStorage.getItem('totalPrice') || 0;
-            store.ids = [];
-            store.quantity = [];
-        },*/
+            //store.restaurantId = localStorage.getItem('restaurantId');
+            // store.totalItems = localStorage.getItem('totalPrice') || 0;
+            // store.ids = [];
+            // store.quantity = [];
+        },
     },
     mounted() {
+        //this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);
+        this.fetchDishes();
         //this.fetchPlates();
-    },
-    watch: {
-        ids() {
-            window.location.reload();
-        }
     },
 }
 </script>
 
 <template>
-    <div class="container">
-
-        <div v-if="(dishes && !empty)">
-
+    <div>
+        <div>
             <div>
-                <h1 >
-                    Ordine per il ristorante: <span class="font-bold">{{ restaurant.name }}</span>
-                </h1>
-                <div
-                    >
-                    <div class="text-4xl">
-                        Totale: <span class="font-bold">&euro;{{ totalPrice }}</span>
+                <h6>
+                    Ordine per il ristorante:<br> 
+                    <strong>Pinco Pallino</strong>
+                </h6>
+                <div class="text-center">
+                    <div>
+                        Totale ordine: <strong>&euro; 14,00</strong>
                     </div>
-                    <router-link :to="{
-                        name: 'checkout',
-                        params: { bool: true }
-                        }" 
-                        title="Vai alla cassa"
-                        >
+                    <span class="btn btn-success mt-2">
                         Vai alla cassa
-                    </router-link>
+                    </span>
                 </div>
             </div>
-            <div >
-                <div v-for="(dish, index) in dishes" :key="index">
-                    <div class="h-60">
-                        <img :src="dish.image_path"
-                            :alt="dish.image_name">
-                    </div>
-                    <div >
-                        <h3 >
-                            {{ dish.name }}
-                        </h3>
-                        <span >
-                            Totale piatto: <span >&euro;{{ (parseFloat(quantity[i]) *
-                                parseFloat(dish.price)).toFixed(2)
-                            }}</span>
-                        </span>
 
+            <div class="mt-2">
+                <strong>Riepilogo ordine</strong>
+                <!--Qui sotto ciclare i piatti selezionati dall'utente e salvati dentro lo storage-->
+                <div>
+                    <div>
+                        <img>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <strong>
+                                Pizza Margherita
+                            </strong>
+                        </div>
+                        <div class="col-7 d-flex align-items-center">
+                            <div class="mx-2">
+                                <button type="button" class="btn btn-danger btn-sm" @click="console.log('rimosso')"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="mx-2" :id="'quantity'">1</span>
+                                <button type="button" class="btn btn-success btn-sm" @click="console.log('aggiunto')"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <span>
+                                &euro; 6,00
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <img>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <strong>
+                                Pizza Diavola
+                            </strong>
+                        </div>
+                        <div class="col-7 d-flex align-items-center">
+                            <div class="mx-2">
+                                <button type="button" class="btn btn-danger btn-sm" @click="console.log('rimosso')"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="mx-2" :id="'quantity'">1</span>
+                                <button type="button" class="btn btn-success btn-sm" @click="console.log('aggiunto')"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <span>
+                                &euro; 8,00
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div @click="clearCart">
-                <button
-                    >
+            <div class="text-center">
+                <button class="btn btn-danger btn-sm mt-3" @click="clearCart()">
                     Svuota carrello
                 </button>
             </div>
 
         </div>
+        <!--Aggiungere condizione se non c'è nessun piatto nel carrello-->
+        <div class="text-center">
+            <h3>
+                Carrello vuoto!
+            </h3>
 
-        <div v-if="empty">
-            <h1 >
-                Carrello vuoto.
-            </h1>
-
-            <router-link :to="{
-                name: 'home',
-            }" 
-                title="Torna al carrello">
+            <span class="btn btn-primary">
                 Torna alla home
-            </router-link>
+            </span>
         </div>
-
     </div>
 </template>
 

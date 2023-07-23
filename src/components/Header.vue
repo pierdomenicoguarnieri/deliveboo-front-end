@@ -21,7 +21,19 @@ export default {
         toggleMenu(){
             const menu = document.getElementById('boo-menu-body');
             menu.classList.contains('hidden') ? menu.classList.remove('hidden') : menu.classList.add('hidden')
-        }
+        },
+        printTotalQuantity(dish){
+            let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+
+            arraydishes.forEach(dish_from_array => {
+                console.log(dish_from_array);
+                /*
+                if(dish.id == dish_from_array.id){
+                let quantity = document.getElementById('quantity' +  dish.id);
+                quantity.innerHTML = dish_from_array.counterQuantity;
+                }*/
+        });
+    },
     }
 }
 </script>
@@ -57,6 +69,9 @@ export default {
                         <i class="fa-solid fa-cart-shopping h-100" @click="toggleDropdown()"></i>
                         <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown">
                             <Cart/>
+                            <span class="rounded-full flex items-center justify-center totalItems text-sm">
+                                {{ printTotalQuantity }}
+                            </span>
                         </div>
                     </div>
                 </ul>
@@ -147,11 +162,11 @@ header {
     .boo-dropdown-body{
         z-index: 999;
         background-color: $custom_white;
-        padding: 10px 20px;
+        padding: 10px 10px;
         min-height: 150px;
         max-height: 300px;
-        width: 250px;
-        overflow-x: scroll;
+        width: 350px;
+        overflow-y: auto;
         right: -10px;
         top: 47px;
         border-radius: 0 0 20px 20px;

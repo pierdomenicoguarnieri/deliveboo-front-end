@@ -10,7 +10,6 @@ export default {
     return{
       store,
       restaurant: [],
-      dishQuantity: 1,
       
     }
   },
@@ -164,7 +163,7 @@ export default {
             this.printDishQuantity(dish)
           });
         }
-      }, 100);
+      }, 300);
     }
   },
   mounted(){
