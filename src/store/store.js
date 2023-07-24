@@ -14,6 +14,5 @@ export const store = reactive({
   error: false,
   loaded: false,
   restaurantcart: localStorage.getItem('restaurantcart') || null,
-  totalOrder : localStorage.getItem('totalOrder'),
-  //totalPrice : localStorage.getItem('totalPrice'),
+  totalPrice : localStorage.getItem('totalPrice') || 0,
 })

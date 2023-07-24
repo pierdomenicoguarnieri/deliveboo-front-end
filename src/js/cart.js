@@ -113,9 +113,10 @@ export const cart = {
         
         localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) + dish.price).toFixed(2);
         document.getElementById("totalPrice").innerHTML = localStorage.getItem("totalPrice");
+        localStorage.setItem('totalQuantity', totalQuantity);
       }
     });
-    localStorage.setItem('totalQuantity', totalQuantity);
+    
     document.getElementById("somma").innerHTML = localStorage.getItem("totalQuantity");
     // Salvo l'array aggiornato in localStorage
     localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
@@ -140,13 +141,16 @@ export const cart = {
           localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price).toFixed(2);
           document.getElementById("totalPrice").innerHTML = localStorage.getItem("totalPrice");
           // Altrimenti se è pari ad uno e cerco di rimuoverne un altro, lo elimino dall'array. modifico il prezzo e rimetto visibile il pulsante per aggiungere al carrello
+
           totalQuantity--;
           localStorage.setItem('totalQuantity', totalQuantity);
-          document.getElementById("somma").innerHTML = localStorage.getItem("totalQuantity");
+          somma.innerHTML = localStorage.getItem("totalQuantity");
+
         }else{
           arraydishes.splice(index, 1);
           localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price).toFixed(2);
           document.getElementById("totalPrice").innerHTML = localStorage.getItem("totalPrice");
+
           totalQuantity--;
           localStorage.setItem('totalQuantity', totalQuantity);
           somma.innerHTML = localStorage.getItem("totalQuantity");
@@ -172,7 +176,7 @@ export const cart = {
       localStorage.setItem('restaurant', store.restaurant.name);
       console.log(localStorage.setItem('restaurant', store.restaurant.name));
       this.arraydishes();
-      
+
       localStorage.clear();
 
       
@@ -220,7 +224,6 @@ export const cart = {
     if(localStorage.totalPrice){
       store.arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
       totalPrice.innerHTML = localStorage.getItem("totalPrice");
-      console.log(localStorage.getItem("totalQuantity"));
       somma.innerHTML = localStorage.getItem("totalQuantity");
       return store.arraydishes
     }

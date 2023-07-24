@@ -11,7 +11,6 @@ export default {
             store,
             restaurant: [],
             cart,
-            dishes: [],
             //restaurant: "",
         };
     },
