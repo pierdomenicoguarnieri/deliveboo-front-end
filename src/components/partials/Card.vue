@@ -39,7 +39,7 @@ export default {
       .text{
         padding: 10px;
         height: calc(100% - 200px);
-        overflow-y: auto;
+        overflow-y: scroll;
         .restaurant-address, .restaurant-name, .typology-container{
           white-space: nowrap;
           display: inline-block;
