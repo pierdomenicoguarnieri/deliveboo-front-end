@@ -117,7 +117,6 @@ export default {
 
 header {
     background-color: rgba($custom_white, $alpha: 0.95);
-    position: aboslute;
     width: 100%;
     color: #0F1108;
     top: 0;

@@ -64,7 +64,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="cart-container">
         <div>
             <div>
                 <h6>
@@ -75,16 +75,13 @@ export default {
                     <div>
                         Totale ordine: <strong>&euro; 14,00</strong>
                     </div>
-                    <span class="btn btn-success mt-2">
-                        Vai alla cassa
-                    </span>
                 </div>
             </div>
 
             <div class="mt-2">
                 <strong>Riepilogo ordine</strong>
                 <!--Qui sotto ciclare i piatti selezionati dall'utente e salvati dentro lo storage-->
-                <div>
+                <div class="dish">
                     <div>
                         <img>
                     </div>
@@ -106,7 +103,7 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="dish">
                     <div>
                         <img>
                     </div>
@@ -130,8 +127,11 @@ export default {
                 </div>
             </div>
             <div class="text-center">
-                <button class="btn btn-danger btn-sm mt-3" @click="clearCart()">
+                <button class="btn btn-danger btn-sm mt-3 me-3" @click="clearCart()">
                     Svuota carrello
+                </button>
+                <button class="btn btn-success btn-sm  mt-3">
+                    Vai alla cassa
                 </button>
             </div>
 
@@ -142,10 +142,20 @@ export default {
                 Carrello vuoto!
             </h3>
 
-            <span class="btn btn-primary">
-                Torna alla home
-            </span>
+
+            <router-link class="btn btn-primary" :to="{name:'home'}">Torna alla home</router-link>
+
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+@import '../../scss/partials/variables';
+
+.dish{
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 5px;
+}
+
+</style>
 
