@@ -185,9 +185,8 @@ export default {
 
                 <div class="boo-dropdown position-relative ms-2">
                     <i class="fa-solid fa-cart-shopping fs-3" @click="toggleDropdown()"></i>
-                    <span class="btn btn-warning" id="somma_mobile"></span>
                     <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown-sm">
-                        <Cart/>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi temporibus nisi aut nobis, officiis illum obcaecati provident iste totam eum ut mollitia debitis. Ducimus odio officiis voluptatibus labore facilis doloribus.
                     </div>
                 </div>
 

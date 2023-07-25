@@ -27,6 +27,10 @@ export default {
 </script>
 
 <template>
+  <div v-if="store.messageErrorCart != ''" class="message_error_cart">
+    <h1>ATTENZIONE!!</h1>
+    <P>{{ store.messageErrorCart }}</P>
+  </div>
   <div class="detail-wrapper mvh-100">
     <Loading v-if="!store.loaded"/>
     <div class="restaurant-detail" v-else>
@@ -88,6 +92,18 @@ export default {
 
 @use '../../scss/partials/variables' as *;
 
+.message_error_cart{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 10;
+  width: 600px;
+  padding: 20px;
+  background-color: red;
+  font-size: bold;
+  border-radius: 15px;
+}
   .boo-card{
     box-shadow: 5px 5px 20px rgba($custom_black, 0.5);
     color: $custom_black;

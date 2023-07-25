@@ -15,4 +15,5 @@ export const store = reactive({
   loaded: false,
   restaurantcart: localStorage.getItem('restaurantcart') || null,
   totalPrice : localStorage.getItem('totalPrice') || 0,
+  messageErrorCart: '',
 })
