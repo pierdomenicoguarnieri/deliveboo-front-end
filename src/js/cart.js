@@ -65,6 +65,8 @@ export const cart = {
     // Se totalPrice NON esiste
     }else{
 
+      //arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+      
       // Setto totalPrice con chiave=>valore dal localStorage
       localStorage.setItem('totalPrice', dish.price);
       document.getElementById("totalPrice").innerHTML = localStorage.getItem("totalPrice");
@@ -92,8 +94,9 @@ export const cart = {
       // Salvo l'array in localStorage
       localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
     }
-      //Al click del bottone il bottone add to cart va in d-none e compaiono i bottoni per modificare la quantità
-      this.checkInCart();
+    this.printDishQuantity(dish);
+    //Al click del bottone il bottone add to cart va in d-none e compaiono i bottoni per modificare la quantità
+    this.checkInCart();
       
   },
 
@@ -192,15 +195,21 @@ export const cart = {
   printDishQuantity(dish){
     let arraydishes = store.arraydishes;
     arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
-    let sumArray = [];
+
     arraydishes.forEach(dish_from_array => {
       if(dish.id == dish_from_array.id){
         let quantity = document.getElementById('quantity' +  dish.id);
         quantity.innerHTML = dish_from_array.counterQuantity;
+        setTimeout(() => {
+          let quantity_cart = document.getElementById('quantity_cart' +  dish.id);
+          quantity_cart.innerHTML = dish_from_array.counterQuantity;
+        }, 200);
+        
+        
+        
       }
     });
-    this.arraydishes();
-
+    //this.arraydishes();
   },
 
   checkInCart(){
@@ -227,6 +236,65 @@ export const cart = {
       somma.innerHTML = localStorage.getItem("totalQuantity");
       return store.arraydishes
     }
+  },
+
+  deleteDishFromCart(dish){
+    let arraydishes = store.arraydishes;
+    arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+    
+    arraydishes.forEach((dish_from_array, index) => {
+      if(dish.id == dish_from_array.id){
+        let quantity = document.getElementById('quantity' +  dish.id);
+        quantity.innerHTML = dish_from_array.counterQuantity;
+
+        localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price * dish_from_array.counterQuantity).toFixed(2);
+        document.getElementById("totalPrice").innerHTML = localStorage.getItem("totalPrice");
+        
+        let totalQuantity = localStorage.getItem("totalQuantity");
+
+        totalQuantity = totalQuantity - dish_from_array.counterQuantity;
+        localStorage.setItem('totalQuantity', totalQuantity);
+        somma.innerHTML = localStorage.getItem("totalQuantity");
+
+        const add = document.getElementById('add' + dish_from_array.id);
+        const change = document.getElementById('changequantity' + dish_from_array.id);
+        add.classList.remove('d-none');
+        change.classList.add('d-none');
+
+        arraydishes.splice(index, 1);
+        localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
+        this.arraydishes();
+      }
+      if(arraydishes.length == 0){
+        this.clearCart();
+      }
+      
+      
+
+    })
+  },
+
+  clearCart() {
+    // console.log(store.arraydishes);
+    let arraydishes = [];
+    arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+    // console.log(arraydishes);
+    arraydishes.forEach(dish_from_array => {
+      // console.log(dish_from_array);
+
+      let add = document.getElementById('add' + dish_from_array.id);
+      let change = document.getElementById('changequantity' + dish_from_array.id);
+      add.classList.remove('d-none');
+      change.classList.add('d-none');
+    });
+    //localStorage.setItem('arraydishes', []);
+    let somma = document.getElementById("somma");
+    somma.innerHTML = 0;
+    somma.classList.add('d-none');
+    localStorage.clear();
+    // store.restaurantcart = localStorage.setItem('restaurantcart', null);
+    // localStorage.restaurantId = localStorage.setItem('restaurantId', null);
+    store.arraydishes = [];
   },
   
 }

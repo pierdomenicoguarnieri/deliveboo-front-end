@@ -11,40 +11,10 @@ export default {
             store,
             restaurant: [],
             cart,
-            //restaurant: "",
         };
-    },
-    computed: {
-        /*
-        totalPrice() {
-           // return store.totalPrice;
-        },
-        quantity() {
-            //return store.quantity;
-        },*/
-    },
-    methods: {
-        // fetchDishes() {
-        //     axios.get(store.apiUrl + `cart/dishes/${this.newarraydishes}`)
-        //         .then(result => {
-        //             console.log(result);
-        //             console.log(result.data);
-        //             console.log(result.data);
-        //             this.dishes = result.data;
-        //         })
-        // },
-        clearCart() {
-            localStorage.clear();
-            store.restaurantcart = '';
-            // store.restaurantId = localStorage.setItem('restaurantId');
-            // store.totalItems = localStorage.getItem('totalPrice') || 0;
-            // store.ids = [];
-            // store.quantity = [];
-        },
     },
     mounted() {
         cart.arraydishes();
-
     },
     watch: {
         arraydishes() {
@@ -56,7 +26,7 @@ export default {
 
 <template>
     <div class="cart-container">
-        <div>
+        <div v-show="store.arraydishes.length != 0">
             <div>
                 <h6>
                     Ordine per il ristorante:<br> 
@@ -87,7 +57,7 @@ export default {
                                 <button type="button" class="btn btn-danger btn-sm" @click="cart.removeCart(dishArray.dish)">
                                     <i class="fa-solid fa-minus"></i>
                                 </button>
-                                    <span class="mx-2" :id="'quantity' + dishArray.id"></span>
+                                    <span class="mx-2" :id="'quantity_cart' + dishArray.id"></span>
                                 <button type="button" class="btn btn-success btn-sm" @click="cart.addCart(dishArray.dish)">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
@@ -96,7 +66,7 @@ export default {
                             <span class="me-3">
                                 &euro; {{ dishArray.dish.price * dishArray.counterQuantity }}
                             </span>
-                            <span>
+                            <span @click="cart.deleteDishFromCart(dishArray.dish)">
                                 <i class="fa-solid fa-circle-xmark text-danger"></i>
                             </span>
                         </div>
@@ -105,7 +75,7 @@ export default {
 
             </div>
             <div class="text-center">
-                <button class="btn btn-danger btn-sm mt-3 me-3" @click="clearCart()">
+                <button class="btn btn-danger btn-sm mt-3 me-3" @click="cart.clearCart()">
                     Svuota carrello
                 </button>
                 <button class="btn btn-success btn-sm  mt-3">
@@ -115,7 +85,7 @@ export default {
 
         </div>
         <!--Aggiungere condizione se non c'è nessun piatto nel carrello-->
-        <div class="text-center mt-3">
+        <div v-show="store.arraydishes.length == 0" class="text-center mt-3">
             <h3>
                 Carrello vuoto!
             </h3>
