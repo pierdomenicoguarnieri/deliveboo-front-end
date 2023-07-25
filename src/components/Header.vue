@@ -14,30 +14,11 @@ export default {
         }
     },
     methods: {
-        toggleDropdown() {
-            const dropdown = document.getElementById('boo-dropdown')
-            const dropdown_sm = document.getElementById('boo-dropdown-sm')
-            dropdown.classList.contains('hidden') ? dropdown.classList.remove('hidden') : dropdown.classList.add('hidden')
-            dropdown_sm.classList.contains('hidden') ? dropdown_sm.classList.remove('hidden') : dropdown_sm.classList.add('hidden')
-        },
-
         toggleMenu(){
             const menu = document.getElementById('boo-menu-body');
             menu.classList.contains('hidden') ? menu.classList.remove('hidden') : menu.classList.add('hidden')
         },
-        /*
-        printTotalQuantity(dish){
-            let arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
-
-            arraydishes.forEach(dish_from_array => {
-                console.log(dish_from_array);
-                
-                if(dish.id == dish_from_array.id){
-                let quantity = document.getElementById('quantity' +  dish.id);
-                quantity.innerHTML = dish_from_array.counterQuantity;
-                }
-        };*/
-
+        
         getRestaurant(endpoint) {
             store.loaded = false; 
             store.done = false; 
@@ -151,13 +132,6 @@ export default {
                         <a href="http://127.0.0.1:8000/admin">Dashboard</a>
                         
                     </li>
-                    <div class="boo-dropdown position-relative ms-4">
-                        <i class="fa-solid fa-cart-shopping h-100" @click="toggleDropdown()"></i>
-                        <span class="btn btn-warning" id="somma"></span>
-                        <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown">
-                            <Cart/>
-                        </div>
-                    </div>
                 </ul>
             </nav>
             <div class="d-md-none d-flex align-items-center h-100">
@@ -180,13 +154,6 @@ export default {
                                 </li>
                             </ul>
                         </nav>
-                    </div>
-                </div>
-
-                <div class="boo-dropdown position-relative ms-2">
-                    <i class="fa-solid fa-cart-shopping fs-3" @click="toggleDropdown()"></i>
-                    <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown-sm">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi temporibus nisi aut nobis, officiis illum obcaecati provident iste totam eum ut mollitia debitis. Ducimus odio officiis voluptatibus labore facilis doloribus.
                     </div>
                 </div>
 
@@ -236,33 +203,6 @@ header {
         }
     }
 }
-
-.boo-dropdown{
-    cursor: pointer;
-    i{
-        font-size: calc(0.6rem + 0.8vw);
-    }
-    .boo-dropdown-body{
-        z-index: 999;
-        background-color: $custom_white;
-        padding: 10px 10px;
-        min-height: 150px;
-        max-height: 300px;
-        width: 400px;
-        overflow-y: auto;
-        right: -10px;
-        top: 47px;
-        border-radius: 0 0 20px 20px;
-        box-shadow: 10px 10px 30px rgba($custom_black, 0.3);
-        transition: all .5s;
-        &.hidden{
-            min-height: 0;
-            max-height: 0;
-            opacity: 0;
-        }
-    }
-}
-
 .boo-menu-sm{
     .btn{
         font-size: 1.5rem;

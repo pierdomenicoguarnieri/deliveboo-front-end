@@ -1,9 +1,9 @@
 <script>
 import {store} from '../../store/store';
-import axios from 'axios';
 import Stars from '../partials/Stars.vue';
 import Loading from '../partials/Loading.vue';
 import {cart} from '../../js/cart.js';
+import AnimationHome from '../partials/AnimationHome.vue';
 
 export default {
   name: 'Detail',
@@ -11,78 +11,81 @@ export default {
     return{
       store,
       cart,
-      
     }
   },
   components:{
     Stars,
     Loading,
+    AnimationHome
   },
 
   mounted(){
-    cart.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);
+    cart.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug, this.$route.fullPath);
   }
 }
 
 </script>
 
 <template>
-  <div v-if="store.messageErrorCart != ''" class="message_error_cart">
-    <h1>ATTENZIONE!!</h1>
-    <P>{{ store.messageErrorCart }}</P>
-  </div>
-  <div class="detail-wrapper mvh-100">
-    <Loading v-if="!store.loaded"/>
-    <div class="restaurant-detail" v-else>
-
-      <div class="header-card rounded-5">
-        <div class="header-card-image">
-          <img :src="store.restaurant.image_path" class="object-fit-cover rounded-5 w-100" :alt="store.restaurant.name" />
+  <AnimationHome v-if="!store.animationFinished"/>
+  <div class="content-wrapper" v-else>
+    <div v-if="store.messageErrorCart != ''" class="message_error_cart">
+      <h1>ATTENZIONE!!</h1>
+      <P>{{ store.messageErrorCart }}</P>
+    </div>
+    <div class="detail-wrapper mvh-100" v-else>
+      <Loading v-if="!store.loaded"/>
+      <div class="restaurant-detail" v-else>
+  
+        <div class="header-card rounded-5">
+          <div class="header-card-image">
+            <img :src="store.restaurant.image_path" class="object-fit-cover rounded-5 w-100" :alt="store.restaurant.name" />
+          </div>
+          <div class="header-card-info">
+            <h1>{{ store.restaurant.name }}</h1>
+            <p><i class="fa-solid fa-location-dot"></i> {{ store.restaurant.address }}</p>
+            <p><i class="fa-solid fa-phone"></i> {{ store.restaurant.telephone_number }}</p>
+            <p><i class="fa-solid fa-envelope"></i> {{ store.restaurant.email }}</p>
+          </div>
         </div>
-        <div class="header-card-info">
-          <h1>{{ store.restaurant.name }}</h1>
-          <p><i class="fa-solid fa-location-dot"></i> {{ store.restaurant.address }}</p>
-          <p><i class="fa-solid fa-phone"></i> {{ store.restaurant.telephone_number }}</p>
-          <p><i class="fa-solid fa-envelope"></i> {{ store.restaurant.email }}</p>
-        </div>
-      </div>
-      <section class="dishes-section">
-        <h2>I nostri piatti</h2>
-        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
-          <div class="col" v-for="dish in store.restaurant.dishes" :key="dish.id">
-            <div class="boo-card rounded-5">
-              <div class="card-body">
-                <div class="dish-image-wrapper">
-                  <img :src="dish.image_path" class="dish-image" :alt="dish.name" />
-                </div>
-                <div class="text d-flex flex-column justify-content-between">
-                  <div class="infos">
-                    <h3 class="dish-name">{{ dish.name }}</h3>
-                    <p v-html="dish.description" class="dish-description mb-0"></p>
-                    <p class="dish-ingredients"><i class="fa-solid fa-utensils"></i> {{ dish.ingredients }}</p>
-                    <p><i class="fa-solid fa-money-bill-wave"></i> {{ dish.price.toFixed(2) }} &euro;</p>
+        <section class="dishes-section">
+          <h2>I nostri piatti</h2>
+          <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
+            <div class="col" v-for="dish in store.restaurant.dishes" :key="dish.id">
+              <div class="boo-card rounded-5">
+                <div class="card-body">
+                  <div class="dish-image-wrapper">
+                    <img :src="dish.image_path" class="dish-image" :alt="dish.name" />
                   </div>
-
-                  <div class="btn-container d-flex justify-content-center">
-                    <button 
-                      type="button" 
-                      class="btn btn-primary" 
-                      :id="'add' + dish.id"
-                      @click="cart.AddToCart(dish)">
-                      Aggiungi al carrello
-                    </button>
-                    <div class="d-none" :id="'changequantity' + dish.id">
-                      <button type="button" class="btn btn-danger" @click="cart.removeCart(dish)"><i class="fa-solid fa-minus"></i></button>
-                        <span class="mx-2" :id="'quantity' + dish.id"></span>
-                      <button type="button" class="btn btn-success" @click="cart.addCart(dish)"><i class="fa-solid fa-plus"></i></button>
+                  <div class="text d-flex flex-column justify-content-between">
+                    <div class="infos">
+                      <h3 class="dish-name">{{ dish.name }}</h3>
+                      <p v-html="dish.description" class="dish-description mb-0"></p>
+                      <p class="dish-ingredients"><i class="fa-solid fa-utensils"></i> {{ dish.ingredients }}</p>
+                      <p><i class="fa-solid fa-money-bill-wave"></i> {{ dish.price.toFixed(2) }} &euro;</p>
+                    </div>
+  
+                    <div class="btn-container d-flex justify-content-center">
+                      <button 
+                        type="button" 
+                        class="btn btn-primary" 
+                        :id="'add' + dish.id"
+                        @click="cart.AddToCart(dish, $route.fullPath)">
+                        Aggiungi al carrello
+                      </button>
+                      <div class="d-none" :id="'changequantity' + dish.id">
+                        <button type="button" class="btn btn-danger" @click="cart.removeCart(dish, $route.fullPath)"><i class="fa-solid fa-minus"></i></button>
+                          <span class="mx-2" :id="'quantity' + dish.id"></span>
+                        <button type="button" class="btn btn-success" @click="cart.addCart(dish, $route.fullPath)"><i class="fa-solid fa-plus"></i></button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   </div>
 </template>

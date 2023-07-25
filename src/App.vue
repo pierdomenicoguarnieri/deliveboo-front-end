@@ -3,6 +3,7 @@ import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import AnimationHome from './components/partials/AnimationHome.vue';
 import {store} from './store/store';
+import Cart from './components/partials/Cart.vue';
 
 export default {
   name: 'App',
@@ -14,7 +15,8 @@ export default {
   components: {
     Header,
     Footer,
-    AnimationHome
+    AnimationHome,
+    Cart
   },
   methods:{
     addPadding(){
@@ -33,9 +35,12 @@ export default {
   <AnimationHome v-if="!store.animationFinished"/>
   <div class="content-wrapper rounded-5 overflow-hidden position-relative fadein" v-else>
     <Header/>
+    
+    <Cart/>
   
     <main>
-      <router-view></router-view>
+      <AnimationHome v-if="!store.animationFinished"/>
+      <router-view v-else></router-view>
     </main>
   
     <Footer/>

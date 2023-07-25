@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const cart = {
 
-  getRestaurant(endpoint){
+  getRestaurant(endpoint, route){
     store.loaded = false; 
     store.done = false; 
     axios.get(store.apiUrl + endpoint)
@@ -14,14 +14,14 @@ export const cart = {
       somma.classList.add('d-none');
       setTimeout(() => {
         store.loaded = true;
-        this.checkInCart();
+        this.checkInCart(route);
       }, 200);
     })
   },
 
   //Funzione per aggiungere piatto al carrello
-  AddToCart(dish) {
-    
+  AddToCart(dish, route) {
+    console.log(route, localStorage.getItem('route'))
     const addcartbutton = document.getElementById('add' + dish.id);
     const changequantity = document.getElementById('changequantity' + dish.id);
     let arraydishes = store.arraydishes;
@@ -87,7 +87,7 @@ export const cart = {
 
       localStorage.setItem('totalQuantity', 0),
 
-      // Il counter della quantità lo metto = 1 e creo l'ggetto del piatto
+      // Il counter della quantità lo metto = 1 e creo l'oggetto del piatto
       arraydishes[0] = {
         id : dish.id,
         dish : dish,
@@ -99,15 +99,17 @@ export const cart = {
       somma.innerHTML = localStorage.getItem("totalQuantity");
       // Salvo l'array in localStorage
       localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
+      // Salvo la rotta
+      localStorage.setItem('route', route);
     }
-    this.printDishQuantity(dish);
+    this.printDishQuantity(dish, route);
     //Al click del bottone il bottone add to cart va in d-none e compaiono i bottoni per modificare la quantità
-    this.checkInCart();
+    this.checkInCart(route);
       
   },
 
    //Funzione per aggiungere quantità del piatto con il button (+)
-  addCart(dish) {
+  addCart(dish, route) {
     // Salvo il localStorage in un array
     let arraydishes = store.arraydishes;
     arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
@@ -131,12 +133,12 @@ export const cart = {
     localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
 
     // Chiamo la funzione per stampare le quantità nell'HTML
-    this.printDishQuantity(dish);
+    this.printDishQuantity(dish, route);
     this.arraydishes();
   },
 
   //Funzione per rimuovere piatto/quantità con il button (-)
-  removeCart(dish) {
+  removeCart(dish, route) {
     // Salvo il localStorage in un array
     let arraydishes = store.arraydishes;
     arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
@@ -165,12 +167,13 @@ export const cart = {
           localStorage.setItem('totalQuantity', totalQuantity);
           somma.innerHTML = localStorage.getItem("totalQuantity");
 
-          const add = document.getElementById('add' + array_dish.id);
-          const change = document.getElementById('changequantity' + array_dish.id);
-          add.classList.remove('d-none');
-          change.classList.add('d-none');
-          
-        }
+          if(route === localStorage.getItem('route')){
+            const add = document.getElementById('add' + array_dish.id);
+            const change = document.getElementById('changequantity' + array_dish.id);
+            add.classList.remove('d-none');
+            change.classList.add('d-none');
+            }
+          }
       }
       
     })
@@ -193,35 +196,34 @@ export const cart = {
       // Altrimenti aggiorno il localStorage e stampo le nuove quantità nell'HTML
     }else{
       localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
-      this.printDishQuantity(dish);
+      this.printDishQuantity(dish, route);
       this.arraydishes();
     }
     
   },
 
   //Funzione per stampare quantità piatto selezionato
-  printDishQuantity(dish){
+  printDishQuantity(dish, route){
     let arraydishes = store.arraydishes;
     arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
 
     arraydishes.forEach(dish_from_array => {
       if(dish.id == dish_from_array.id){
-        let quantity = document.getElementById('quantity' +  dish.id);
-        quantity.innerHTML = dish_from_array.counterQuantity;
+        if(route === localStorage.getItem('route')){
+          let quantity = document.getElementById('quantity' +  dish.id);
+          quantity.innerHTML = dish_from_array.counterQuantity;
+        }
         setTimeout(() => {
           let quantity_cart = document.getElementById('quantity_cart' +  dish.id);
           quantity_cart.innerHTML = dish_from_array.counterQuantity;
-        }, 200);
-        
-        
-        
+        }, 200);      
       }
     });
   },
   //Funzione per modificare visibilità pulsanti
-  checkInCart(){
+  checkInCart(route){
     setTimeout(() => {
-      if(localStorage.getItem('totalPrice')){
+      if(localStorage.getItem('totalPrice') && route === localStorage.getItem('route')){
         let arraydishes = store.arraydishes;
         arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
         arraydishes.forEach(dish => {
@@ -229,7 +231,7 @@ export const cart = {
           let change = document.getElementById('changequantity' + dish.id);
           add.classList.add('d-none');
           change.classList.remove('d-none');
-          this.printDishQuantity(dish)
+          this.printDishQuantity(dish, route)
         });
       }
     }, 300);
@@ -251,15 +253,12 @@ export const cart = {
   },
 
   //Funzione per eliminare piatto dalla (X) nel carrello
-  deleteDishFromCart(dish){
+  deleteDishFromCart(dish, route){
     let arraydishes = store.arraydishes;
     arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
     
     arraydishes.forEach((dish_from_array, index) => {
       if(dish.id == dish_from_array.id){
-        let quantity = document.getElementById('quantity' +  dish.id);
-        quantity.innerHTML = dish_from_array.counterQuantity;
-
         localStorage.totalPrice = parseFloat(parseFloat(localStorage.totalPrice) - dish.price * dish_from_array.counterQuantity).toFixed(2);
         document.getElementById("totalPrice").innerHTML = localStorage.getItem("totalPrice");
         
@@ -269,17 +268,21 @@ export const cart = {
         localStorage.setItem('totalQuantity', totalQuantity);
         somma.innerHTML = localStorage.getItem("totalQuantity");
 
-        const add = document.getElementById('add' + dish_from_array.id);
-        const change = document.getElementById('changequantity' + dish_from_array.id);
-        add.classList.remove('d-none');
-        change.classList.add('d-none');
+        if(route === localStorage.getItem('route')){
+          let quantity = document.getElementById('quantity' +  dish.id);
+          quantity.innerHTML = dish_from_array.counterQuantity;
+          const add = document.getElementById('add' + dish_from_array.id);
+          const change = document.getElementById('changequantity' + dish_from_array.id);
+          add.classList.remove('d-none');
+          change.classList.add('d-none');
+        }
 
         arraydishes.splice(index, 1);
         localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
         this.arraydishes();
       }
       if(arraydishes.length == 0){
-        this.clearCart();
+        this.clearCart(route);
       }
       
       
@@ -288,14 +291,16 @@ export const cart = {
   },
 
   //Funzione per pulire il carrello ed eliminare tutto al suo interno
-  clearCart() {
+  clearCart(route) {
     let arraydishes = [];
     arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
     arraydishes.forEach(dish_from_array => {
-      let add = document.getElementById('add' + dish_from_array.id);
-      let change = document.getElementById('changequantity' + dish_from_array.id);
-      add.classList.remove('d-none');
-      change.classList.add('d-none');
+      if(route === localStorage.getItem('route')){
+        let add = document.getElementById('add' + dish_from_array.id);
+        let change = document.getElementById('changequantity' + dish_from_array.id);
+        add.classList.remove('d-none');
+        change.classList.add('d-none');
+      }
     });
     let somma = document.getElementById("somma");
     somma.innerHTML = 0;

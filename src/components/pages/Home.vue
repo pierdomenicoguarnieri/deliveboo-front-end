@@ -203,6 +203,7 @@ export default {
 }
 
 .restaurant-swiper{
+  z-index: 2 !important;
   .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal{
     .swiper-pagination-bullet-active{
       background-color: $tertiary_color !important;
