@@ -42,7 +42,7 @@ export default {
 <style scoped lang="scss">
 .about-container-inner {
     padding: 20px;
-    background-color: #f0ebe9;
+    background-color: rgba(white, 0.6);
     color: #65605F;
     text-align: center;
 }
