@@ -34,13 +34,6 @@ const router = createRouter({
             name: 'about',
             component: About
         },
-          //Add for Cart
-          /*
-        {
-            path: '/carrello',
-            name: 'cart',
-            component: Cart,
-        },*/
         {
             path: '/restaurant-detail/:slug',
             name: 'restaurant-detail',

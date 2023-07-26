@@ -29,10 +29,16 @@ export default {
 <template>
   <AnimationHome v-if="!store.animationFinished"/>
   <div class="content-wrapper" v-else>
-    <div v-if="store.messageErrorCart != ''" class="message_error_cart">
-      <h1>ATTENZIONE!!</h1>
-      <P>{{ store.messageErrorCart }}</P>
+    <div v-if="store.messageErrorCart != ''" class="container_message_error_cart d-flex justify-content-center py-5">
+      <div class="message_error_cart text-center">
+        <h1 class="text-uppercase text-decoration-underline">attenzione!!</h1>
+        <P>{{ store.messageErrorCart }}</P>
+        <button class="btn btn-danger btn-sm mt-3 me-3" @click="cart.clearCart($route.fullPath)">
+            Svuota carrello
+        </button>
+      </div>
     </div>
+
     <div class="detail-wrapper mvh-100" v-else>
       <Loading v-if="!store.loaded"/>
       <div class="restaurant-detail" v-else>
@@ -94,19 +100,20 @@ export default {
 <style lang="scss" scoped>
 
 @use '../../scss/partials/variables' as *;
-
-.message_error_cart{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%);
-  z-index: 10;
-  width: 600px;
-  padding: 20px;
-  background-color: red;
-  font-size: bold;
-  border-radius: 15px;
+.container_message_error_cart{
+  background-color: rgba($custom_white, 0.8);
+  .message_error_cart{
+    z-index: 10;
+    width: 600px;
+    padding: 20px;
+    background-color: white;
+    border: 4px solid red;
+    color: red;
+    font-size: bold;
+    border-radius: 15px;
+  }
 }
+
   .boo-card{
     box-shadow: 5px 5px 20px rgba($custom_black, 0.5);
     color: $custom_black;

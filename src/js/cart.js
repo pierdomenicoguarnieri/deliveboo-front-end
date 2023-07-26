@@ -21,7 +21,6 @@ export const cart = {
 
   //Funzione per aggiungere piatto al carrello
   AddToCart(dish, route) {
-    console.log(route, localStorage.getItem('route'))
     const addcartbutton = document.getElementById('add' + dish.id);
     const changequantity = document.getElementById('changequantity' + dish.id);
     let arraydishes = store.arraydishes;
@@ -82,8 +81,9 @@ export const cart = {
 
       //Salvo il nome del ristorante
       // store.restaurant.name = store.restaurantcart;
+      let restaurantcart = document.getElementById("restaurantcart");
       localStorage.setItem('restaurantcart', store.restaurant.name);
-      document.getElementById("restaurantcart").innerHTML = localStorage.getItem("restaurantcart");
+      restaurantcart.innerHTML = localStorage.getItem("restaurantcart");
 
       localStorage.setItem('totalQuantity', 0),
 
@@ -134,7 +134,7 @@ export const cart = {
 
     // Chiamo la funzione per stampare le quantità nell'HTML
     this.printDishQuantity(dish, route);
-    this.arraydishes();
+    this.arraydishes(route);
   },
 
   //Funzione per rimuovere piatto/quantità con il button (-)
@@ -184,14 +184,14 @@ export const cart = {
       localStorage.setItem('totalQuantity', totalQuantity);
       somma.classList.add('d-none');
 
-      store.restaurant.name = '';
-      console.log(store.restaurant.name);
-      localStorage.setItem('restaurant', store.restaurant.name);
-      console.log(localStorage.setItem('restaurant', store.restaurant.name));
+      store.restaurantcart = '';
+      localStorage.setItem('restaurantcart', store.restaurantcart);
       this.arraydishes();
-
+      
       localStorage.clear();
-
+      store.arraydishes = [];
+      let arraydishes = store.arraydishes;
+      arraydishes = localStorage.getItem('arraydishes');
       
       // Altrimenti aggiorno il localStorage e stampo le nuove quantità nell'HTML
     }else{
@@ -210,8 +210,10 @@ export const cart = {
     arraydishes.forEach(dish_from_array => {
       if(dish.id == dish_from_array.id){
         if(route === localStorage.getItem('route')){
-          let quantity = document.getElementById('quantity' +  dish.id);
-          quantity.innerHTML = dish_from_array.counterQuantity;
+          setTimeout(()=>{
+            let quantity = document.getElementById('quantity' +  dish.id);
+            quantity.innerHTML = dish_from_array.counterQuantity;
+          }, 200);
         }
         setTimeout(() => {
           let quantity_cart = document.getElementById('quantity_cart' +  dish.id);
@@ -235,19 +237,28 @@ export const cart = {
         });
       }
     }, 300);
-    this.arraydishes();
+    this.arraydishes(route);
   },
 
   //Funzione per aggiornare array carrello
-  arraydishes() {
-    if(localStorage.totalPrice){
+  arraydishes(route) {
+    if(localStorage.totalPrice){     
+      //let arraydishes = store.arraydishes;
       store.arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
       totalPrice.innerHTML = localStorage.getItem("totalPrice");
+
+      let restaurantcart = document.getElementById("restaurantcart");
+      restaurantcart.innerHTML = localStorage.getItem("restaurantcart", store.restaurant.name);
+
       if(localStorage.getItem("totalPrice") > 0){
         let somma = document.getElementById("somma");
         somma.innerHTML = localStorage.getItem("totalQuantity");
         somma.classList.remove('d-none');
       }
+
+      store.arraydishes.forEach(dish_from_array => {
+        this.printDishQuantity(dish_from_array.dish, route);
+      });
       return store.arraydishes
     }
   },
@@ -279,7 +290,7 @@ export const cart = {
 
         arraydishes.splice(index, 1);
         localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
-        this.arraydishes();
+        this.arraydishes(route);
       }
       if(arraydishes.length == 0){
         this.clearCart(route);

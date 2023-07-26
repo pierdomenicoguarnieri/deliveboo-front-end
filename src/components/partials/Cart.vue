@@ -20,7 +20,7 @@ export default {
         },
     },
     mounted() {
-        cart.arraydishes();
+        cart.arraydishes(this.$route.fullPath);
     },
     watch: {
         arraydishes() {
@@ -42,7 +42,7 @@ export default {
                     <div>
                         <h6>
                             Ordine per il ristorante:<br> 
-                            <strong id="restaurantcart"></strong>
+                            <h4 id="restaurantcart"></h4>
                         </h6>
                         <div class="text-center">
                             <div>
@@ -86,7 +86,7 @@ export default {
                         </div>
 
                     </div>
-                    <div class="text-center">
+                    <div class="text-center mt-2 mb-3">
                         <button class="btn btn-danger btn-sm mt-3 me-3" @click="cart.clearCart($route.fullPath)">
                             Svuota carrello
                         </button>
