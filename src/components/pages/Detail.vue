@@ -126,6 +126,16 @@ export default {
         padding: 20px;
         height: calc(100% - 200px);
         overflow-y: auto;
+        &::-webkit-scrollbar{
+          width: 5px;
+          background-color: $custom_white;
+          box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+          border-radius: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: $custom_gray;
+          border-radius: 10px;
+        }
         p{
           margin-bottom: 10px;
         }
