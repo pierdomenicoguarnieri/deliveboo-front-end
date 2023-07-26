@@ -18,7 +18,7 @@ export default {
         <div class="typology-container my-2">
           <span v-for="typology in restaurant.types" :key="typology.id" class="badge text-bg-secondary me-2 text-capitalize mb-2">{{ typology.name }}</span>
         </div>
-        <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary d-block">Ordina</span></router-link>
+        <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary boo-btn d-block">Ordina</span></router-link>
       </div>
     </div>
   </div>

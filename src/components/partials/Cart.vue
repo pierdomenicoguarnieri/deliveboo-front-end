@@ -111,7 +111,7 @@ export default {
                     <h3>
                         Carrello vuoto!
                     </h3>
-                    <router-link class="btn btn-primary" :to="{name:'home'}">Torna alla home</router-link>
+                    <router-link class="btn btn-primary boo-btn" :to="{name:'home'}">Torna alla home</router-link>
                 </div>
             </div>
         </div>
@@ -121,6 +121,9 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/partials/variables';
 
+h3,h4,h6{
+    color: $custom_black;
+}
 .boo-dropdown{
     cursor: pointer;
     position: fixed;

@@ -26,7 +26,7 @@ export default {
   <div class="page-wrapper">
     <h1>Error 404</h1>
     <div class="btn-container">
-      <router-link class="btn btn-primary" :to="{name:'home'}">Torna alla home</router-link>
+      <router-link class="btn btn-primary boo-btn" :to="{name:'home'}">Torna alla home</router-link>
     </div>
   </div>
 </template>

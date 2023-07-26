@@ -28,7 +28,7 @@
             <p class="career-description">
                 Stiamo sempre cercando nuovi talenti per unirsi al nostro team. Invia il tuo CV a careers@fooddelivery.it.
             </p>
-            <a class="career-button" href="mailto:careers@fooddelivery.it">Invia CV</a>
+            <a class="btn btn-primary boo-btn" href="mailto:careers@fooddelivery.it">Invia CV</a>
         </section>
     </div>
 </template>
@@ -50,8 +50,6 @@ export default {
 .about-title,
 .section-title {
     margin-bottom: 20px;
-    font-size: 2em;
-    color: #E37285;
 }
 
 .team-section,

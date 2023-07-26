@@ -74,7 +74,7 @@ export default {
                     <div class="btn-container d-flex justify-content-center">
                       <button 
                         type="button" 
-                        class="btn btn-primary" 
+                        class="btn btn-primary boo-btn" 
                         :id="'add' + dish.id"
                         @click="cart.AddToCart(dish, $route.fullPath)">
                         Aggiungi al carrello

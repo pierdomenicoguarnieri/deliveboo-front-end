@@ -1,0 +1,16 @@
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn:hover, .btn.active, .btn.show{
+  &.boo-btn{
+    background-color: $tertiary_color !important;
+    color: $custom_white !important;
+  }
+}
+
+.boo-btn{
+  border-color: $tertiary_color !important;
+  color: $tertiary_color !important;
+  background-color: transparent !important;
+}
+
+a{
+  text-decoration: none !important;
+}
