@@ -101,6 +101,7 @@ export const cart = {
       localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
       // Salvo la rotta
       localStorage.setItem('route', route);
+      localStorage.setItem('token', crypto.randomUUID());
     }
     this.printDishQuantity(dish, route);
     //Al click del bottone il bottone add to cart va in d-none e compaiono i bottoni per modificare la quantità
