@@ -1,69 +1,180 @@
 <script>
 import {store} from '../../store/store';
-import axios from 'axios';
 import Stars from '../partials/Stars.vue';
+import Loading from '../partials/Loading.vue';
+import {cart} from '../../js/cart.js';
+import AnimationHome from '../partials/AnimationHome.vue';
+
 export default {
+  name: 'Detail',
   data(){
     return{
       store,
-      restaurant: []
+      cart,
     }
   },
   components:{
-    Stars
+    Stars,
+    Loading,
+    AnimationHome
   },
-  methods:{
-    getRestaurant(endpoint){
-      axios.get(store.apiUrl + endpoint)
-      .then(results => {
-        this.restaurant = results.data;
-      })
-    } 
-  },
+
   mounted(){
-    this.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug);
+    cart.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug, this.$route.fullPath);
   }
 }
+
 </script>
 
 <template>
-  <div class="restaurant-detail">
-    <div class="header-card">
-      <div class="header-card-image w-25">
-        <img :src="restaurant.image_path" class="object-fit-cover w-100" :alt="restaurant.name" />
-      </div>
-      <div class="header-card-info">
-        <h1>{{ restaurant.name }}</h1>
-        <p>Indirizzo: {{ restaurant.address }}</p>
-        <p>Telefono: {{ restaurant["telephone-number"] }}</p>
-        <p>Email: {{ restaurant.email }}</p>
-        <p>Voto: {{ restaurant.rating }}</p>
-        <div class="user-rating">
-          <!-- <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/> -->
-        </div>
+  <AnimationHome v-if="!store.animationFinished"/>
+  <div class="content-wrapper" v-else>
+    <div v-if="store.messageErrorCart != ''" class="container_message_error_cart d-flex justify-content-center py-5">
+      <div class="message_error_cart text-center">
+        <h1 class="text-uppercase text-decoration-underline">attenzione!!</h1>
+        <P>{{ store.messageErrorCart }}</P>
+        <button class="btn btn-danger btn-sm mt-3 me-3" @click="cart.clearCart($route.fullPath)">
+            Svuota carrello
+        </button>
       </div>
     </div>
-    <section class="dishes-section">
-      <h2>I nostri piatti</h2>
-      <div class="dishes-grid">
-        <div class="dish-card" v-for="dish in restaurant.dishes" :key="dish.id">
-          <div class="dish-card-image w-50">
-            <img :src="dish.image_path" class="w-100 object-fit-cover" :alt="dish.name" />
+
+    <div class="detail-wrapper mvh-100" v-else>
+      <Loading v-if="!store.loaded"/>
+      <div class="restaurant-detail" v-else>
+  
+        <div class="header-card rounded-5">
+          <div class="header-card-image">
+            <img :src="store.restaurant.image_path" class="object-fit-cover rounded-5 w-100" :alt="store.restaurant.name" />
           </div>
-          <div class="dish-card-info">
-            <h3>{{ dish.name }}</h3>
-            <p v-html="dish.description"></p>
-            <p>Ingredienti: {{ dish.ingredients }}</p>
-            <p>Prezzo: {{ dish.price }}</p>
+          <div class="header-card-info">
+            <h1>{{ store.restaurant.name }}</h1>
+            <p><i class="fa-solid fa-location-dot"></i> {{ store.restaurant.address }}</p>
+            <p><i class="fa-solid fa-phone"></i> {{ store.restaurant.telephone_number }}</p>
+            <p><i class="fa-solid fa-envelope"></i> {{ store.restaurant.email }}</p>
           </div>
         </div>
+        <section class="dishes-section">
+          <h2>I nostri piatti</h2>
+          <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
+            <div class="col" v-for="dish in store.restaurant.dishes" :key="dish.id">
+              <div class="boo-card rounded-5">
+                <div class="card-body">
+                  <div class="dish-image-wrapper">
+                    <img :src="dish.image_path" class="dish-image" :alt="dish.name" />
+                  </div>
+                  <div class="text d-flex flex-column justify-content-between">
+                    <div class="infos">
+                      <h3 class="dish-name">{{ dish.name }}</h3>
+                      <p v-html="dish.description" class="dish-description mb-0"></p>
+                      <p class="dish-ingredients"><i class="fa-solid fa-utensils"></i> {{ dish.ingredients }}</p>
+                      <p><i class="fa-solid fa-money-bill-wave"></i> {{ dish.price.toFixed(2) }} &euro;</p>
+                    </div>
+  
+                    <div class="btn-container d-flex justify-content-center">
+                      <button 
+                        type="button" 
+                        class="btn btn-primary boo-btn" 
+                        :id="'add' + dish.id"
+                        @click="cart.AddToCart(dish, $route.fullPath)">
+                        Aggiungi al carrello
+                      </button>
+                      <div class="d-none" :id="'changequantity' + dish.id">
+                        <button type="button" class="btn btn-danger" @click="cart.removeCart(dish, $route.fullPath)"><i class="fa-solid fa-minus"></i></button>
+                          <span class="mx-2" :id="'quantity' + dish.id"></span>
+                        <button type="button" class="btn btn-success" @click="cart.addCart(dish, $route.fullPath)"><i class="fa-solid fa-plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
 
 <style lang="scss" scoped>
+
+@use '../../scss/partials/variables' as *;
+.container_message_error_cart{
+  background-color: rgba($custom_white, 0.8);
+  .message_error_cart{
+    z-index: 10;
+    width: 600px;
+    padding: 20px;
+    background-color: white;
+    border: 4px solid red;
+    color: red;
+    font-size: bold;
+    border-radius: 15px;
+  }
+}
+
+  .boo-card{
+    box-shadow: 5px 5px 20px rgba($custom_black, 0.5);
+    color: $custom_black;
+    overflow: hidden;
+    height: 100%;
+    .card-body{
+      height: 100%;
+      background-color: rgba($custom_white, 0.8);
+      .text{
+        padding: 20px;
+        height: calc(100% - 200px);
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+          width: 5px;
+          background-color: $custom_white;
+          box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+          border-radius: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: $custom_gray;
+          border-radius: 10px;
+        }
+        p{
+          margin-bottom: 10px;
+        }
+        .dish-name, .dish-ingredients{
+          white-space: nowrap;
+          display: inline-block;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-height: 35px;
+          cursor: default;
+          transition: all 1s;
+          &:hover, &:hover{
+            white-space: break-spaces;
+            max-width: none;
+            max-height: 200px;
+          }
+        }
+      }
+      .dish-image-wrapper{
+        height: 200px;
+        .dish-image{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+h2{
+  color: $tertiary_color;
+  margin-left: 10px;
+  font-size: 3rem;
+  font-weight: 700;
+}
+.detail-wrapper{
+  background-color: rgba(white, 0.6);
+}
 .restaurant-detail {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -77,76 +188,76 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  background-color: #f9f9f9;
+  background-color: rgba($custom_white, 0.8);
   padding: 1rem;
   border-radius: 5px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
 }
 
-.header-card-image img {
-  width: 100%;
+.header-card-image{
+  width: 300px;
   height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
 }
 
 .header-card-info {
+  h1{
+    margin-bottom: 20px;
+  }
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-left: 40px;
 }
 
 .dishes-section {
   grid-column: 1 / span 12;
 }
 
-.dishes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1rem;
-}
-
-.dish-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  transition: transform 0.3s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
+.row{
+  padding-top: 30px;
+  .col{
+    height: 550px;
+    margin-bottom: 50px;
   }
-}
-
-.dish-card-image img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
 }
 
 @media (max-width: 992px) {
-  .dishes-grid {
-    grid-template-columns: repeat(2, 1fr);
+
+  .header-card-image{
+    width: 250px;
   }
 
-  .header-card-image img {
-    height: 150px;
+  .header-card-info {
+    margin-left: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .dishes-grid {
-    grid-template-columns: 1fr;
+  h2{
+    font-size: calc(2rem + 1vw);
   }
 
-  .header-card-image img {
-    height: 100px;
+  .header-card-image{
+    width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-card-image{
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .header-card-info {
+    margin-top: 20px;
+    margin-left: 10px;
   }
 }
 </style>

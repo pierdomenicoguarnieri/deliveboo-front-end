@@ -20,9 +20,8 @@ export default {
 
 footer{
   height: 80px;
-  background-color: $custom_white;
+  background-color: rgba($custom_white, 0.8);
   color: $tertiary_color;
-  border-top: 3px solid black;
 }
 
 </style>

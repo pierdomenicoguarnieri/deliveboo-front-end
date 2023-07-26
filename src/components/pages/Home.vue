@@ -8,13 +8,17 @@
   import 'swiper/css/pagination';
   import { Mousewheel, Pagination, Autoplay } from 'swiper/modules';
   import Stars from '../partials/Stars.vue';
+  import Loading from '../partials/Loading.vue';
+  import Card from '../partials/Card.vue';
 
 export default {
   name: 'Home',
   components: {
     Swiper,
     SwiperSlide,
-    Stars
+    Stars,
+    Loading,
+    Card
   },
   setup() {
     return {
@@ -28,12 +32,13 @@ export default {
   },
   methods: {
     getApi(endpoint){
+      store.loaded = false;
       axios.get(store.apiUrl + endpoint)
         .then(results => {
           store.restaurants = results.data.restaurants;
           store.restaurant_backup = store.restaurants;
           store.types = results.data.types;
-          
+          store.loaded = true;
         })
     },
 
@@ -91,14 +96,15 @@ export default {
 <template>
   <div class="home-container-inner">
     <h1 class="home-title">Benvenuto su DeliveBoo!</h1>
-
-    <div class="home-search-container d-flex justify-content-center">
+    
+    <!-- <div class="home-search-container d-flex justify-content-center">
       <input class="home-search-input w-50" type="search" placeholder="Cerca un ristorante...">
-        <button type="submit" class="p-3 text-center search_button"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </div>
-
-    <div class="container">
-      <div class="container-types d-flex flex-wrap justify-content-center mb-2">
+      <button type="submit" class="p-3 text-center search_button"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div> -->
+    
+    <Loading v-if="!store.loaded"/>
+    <div class="container" v-else>
+      <div class="container-types d-flex flex-wrap justify-content-center mb-5">
         <div class="type-container p-3" v-for="(type, index) in store.types" :key="index">
           <span class="fw-bold typology" :id="type.id" @click="getTypeId(type.id), checkActive(type.id)">{{ type.name }}</span>
         </div>
@@ -111,7 +117,9 @@ export default {
 
       <div class="popular_restaurant mb-5" v-if="store.types_id.length == 0">
         <h2 class="home-subtitle">Ristoranti popolari</h2>
+        <Loading v-if="!store.loaded"/>
         <swiper
+          v-else
           :slidesPerView="3"
           :spaceBetween="30"
           :mousewheel="true"
@@ -119,52 +127,52 @@ export default {
             clickable: true,
           }"
           :modules="modules"
-          class="mySwiper"
+          :breakpoints="{
+            '0': {
+                slidesPerView: 1,
+                spaceBetween: 0,
+            },
+            '768': {
+                slidesPerView: 1,
+                spaceBetween: 0,
+            },
+            '991': {
+                slidesPerView: 2,
+                spaceBetween: 0,
+            },
+            '1200': {
+                slidesPerView: 4,
+                spaceBetween: 0,
+            },
+            '1400': {
+                slidesPerView: 4,
+                spaceBetween: 0,
+            },
+            }"
+          class="restaurant-swiper"
         >
         
           <swiper-slide v-for="restaurant in store.restaurants" :key="restaurant.id" v-show="restaurant.rating > 4">
-            <div class="home-restaurant-card mb-5">
-              <img class="home-restaurant-image" :src="restaurant.image_path" :alt="restaurant.image_name">
-              <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
-              <div class="user-rating">
-                <Stars :rating="Math.floor(restaurant.rating)" :originalRating="(restaurant.rating)"/>
-              </div>
-              <div class="typology-container my-2">
-                <span v-for="typology in restaurant.type" :key="typology.id" class="badge text-bg-secondary me-2 text-capitalize mb-2">{{ typology.name }}</span>
-              </div>
-              <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary">Ordina</span></router-link>
-            </div>
+            <Card :restaurant="restaurant"/>
           </swiper-slide>
         </swiper>
       </div>
       
 
-      <div>
+      <div v-if="store.restaurants.length != 0">
         <h2 class="home-subtitle">Tutti i Ristoranti</h2>
-        <div class="home-restaurant-grid">
-          <div class="home-restaurant-card" v-for="restaurant in store.restaurants" :key="restaurant.id">
-            <img class="home-restaurant-image" :src="restaurant.image_path" :alt="restaurant.image_name">
-            <div class="text">
-              <h3 class="home-restaurant-name">{{restaurant.name}}</h3>
-              <div class="user-rating">
-                <Stars :rating="Math.floor(restaurant.rating)" :originalRating="restaurant.rating"/>
-              </div>
-              <div class="typology-container my-2">
-                <span v-for="typology in restaurant.types" :key="typology.id" class="badge text-bg-secondary me-2 text-capitalize mb-2">{{ typology.name }}</span>
-              </div>
-              <router-link :to="{name:'restaurant-detail', params: {slug: restaurant.slug}}"><span class="btn btn-primary">Ordina</span></router-link>
-            </div>
+        <Loading v-if="!store.loaded"/>
+        <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1" v-else>
+          <div class="col" v-for="restaurant in store.restaurants" :key="restaurant.id">
+            <Card :restaurant="restaurant"/>
           </div>
         </div>
-
       </div>
-
       
-
+      <div v-if="store.restaurants.length == 0">
+        <h2 class="home-subtitle">Non ci sono ristoranti</h2>
+      </div>
     </div>
-
-
-
   </div>
 </template>
 
@@ -174,43 +182,42 @@ export default {
 @use '../../scss/partials/variables' as *;
 .home-container-inner {
   padding: 20px;
-  background-color: #f0ebe9;
+  background-color: rgba(white, 0.6);
   color: #EDECEC;
   text-align: center;
 }
 
+.row{
+  padding-top: 30px;
+  .col{
+    height: 400px;
+    margin-bottom: 50px;
+  }
+}
+
 .home-title {
   margin: 20px;
+  font-size: 4.5rem;
+  font-weight: 700;
   color: $tertiary_color;
 }
 
-.home-search-container {
-  margin-bottom: 60px;
-  &:hover {
-    .home-search-input{
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .search_button{
-      color: $tertiary_color;
+.restaurant-swiper{
+  z-index: 2 !important;
+  .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal{
+    .swiper-pagination-bullet-active{
+      background-color: $tertiary_color !important;
     }
   }
-  .home-search-input {
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 1em;
-    border-radius: 20px 0 0 20px;
-    border: 1px solid grey;
-    background-color: #fff;
-    transition: box-shadow 0.2s;
-
-  }
-  .search_button{
-    border-radius: 0 20px 20px 0;
-    border: 1px solid grey;
-    background-color: white;
-    font-size: bold;
+  .swiper-slide{
+    height: 500px;
+    padding: 30px 30px;
+    .boo-card{
+      height: 400px;
+    }
   }
 }
+
 .container-types{
   span{
     color: $custom_white;
@@ -230,75 +237,29 @@ export default {
 }
 
 .home-subtitle {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   color: $tertiary_color;
 }
 
-.home-restaurant-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.home-restaurant-card {
-  background-color: #fff;
-  color: #000;
-  //border-radius: 5px;
-  padding: 10px;
-  overflow: hidden;
-  //transition: transform 0.2s;
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+@media screen and (max-width: 768px) {
+  .home-title{
+    font-size: 3rem;
   }
 
-  h3 {
-    margin-top: 10px;
-  }
-
-  .closing-time {
-    font-size: 0.9em;
-    color: #E37285;
-  }
-
-  .user-rating {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #FFD700;
-
-    .rating-label {
-      margin-right: 5px;
-    }
-
-    .rating-star {
-      margin-right: 2px;
-    }
-  }
-
-  .home-restaurant-details {
-    margin-top: 10px;
-    font-size: 0.8em;
-    text-align: justify;
-  }
-
-  &:hover {
-    transform: scale(1.03);
+  .typology{
+    font-size: .9rem;
   }
 }
 
-@media (max-width: 768px) {
-  .home-restaurant-grid {
-    grid-template-columns: repeat(2, 1fr);
+@media screen and (max-width: 430px) {
+  .home-title{
+    font-size: 2rem;
+  }
+
+  .typology{
+    font-size: .8rem;
   }
 }
 
-@media (max-width: 550px) {
-  .home-restaurant-grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 </style>
