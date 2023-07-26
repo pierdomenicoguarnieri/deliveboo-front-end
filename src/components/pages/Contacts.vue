@@ -14,7 +14,7 @@
 
 <template>
   <div class="contacts-container-inner">
-    <h1 class="contacts-title">Contatti</h1>
+    <h1>Contatti</h1>
 
     <section class="form-section">
       <h2 class="section-title">Invia un messaggio</h2>
@@ -52,14 +52,11 @@
   background-color: rgba(white, 0.6);
   color: #65605F;
   text-align: center;
-  font-family: Arial, sans-serif;
 }
 
 .contacts-title,
 .section-title {
   margin-bottom: 1rem;
-  font-size: 2em;
-  color: #E37285;
 }
 
 .info-section,

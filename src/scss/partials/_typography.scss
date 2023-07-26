@@ -23,3 +23,68 @@ $fw-900: 900;
 // Font Sizes
 
 $fs-1: 0.1rem;
+$fs-2: 0.2rem;
+$fs-3: 0.3rem;
+$fs-4: 0.4rem;
+$fs-5: 0.5rem;
+$fs-6: 0.6rem;
+$fs-7: 0.7rem;
+$fs-8: 0.8rem;
+$fs-9: 0.9rem;
+$fs-10: 1rem;
+$fs-11: 1.1rem;
+$fs-12: 1.2rem;
+$fs-13: 1.3rem;
+$fs-14: 1.4rem;
+$fs-15: 1.5rem;
+$fs-16: 1.6rem;
+$fs-17: 1.7rem;
+$fs-18: 1.8rem;
+$fs-19: 1.9rem;
+$fs-20: 2rem;
+$fs-21: 2.1rem;
+$fs-22: 2.2rem;
+$fs-23: 2.3rem;
+$fs-24: 2.4rem;
+$fs-25: 2.5rem;
+$fs-26: 2.6rem;
+$fs-27: 2.7rem;
+$fs-28: 2.8rem;
+$fs-29: 2.9rem;
+$fs-30: 3rem;
+
+// Rules 
+
+h1, h2, h3, h4, h5, h6{
+  color: $tertiary_color;
+}
+
+h1{
+  font-size: 4.5rem;
+  font-weight: $fw-700;
+}
+
+h2{
+  font-size: $fs-30;
+  font-weight: $fw-600;
+}
+
+@media screen and (max-width: 768px) {
+  h1{
+    font-size: $fs-30;
+  }
+
+  h2{
+    font-size: $fs-20;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  h1{
+    font-size: $fs-25;
+  }
+
+  h2{
+    font-size: $fs-20;
+  }
+}
