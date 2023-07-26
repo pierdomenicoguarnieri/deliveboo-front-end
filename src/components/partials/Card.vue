@@ -40,6 +40,16 @@ export default {
         padding: 10px;
         height: calc(100% - 200px);
         overflow-y: scroll;
+        &::-webkit-scrollbar{
+          width: 5px;
+          background-color: $custom_white;
+          box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+          border-radius: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: $custom_gray;
+          border-radius: 10px;
+        }
         .restaurant-address, .restaurant-name, .typology-container{
           white-space: nowrap;
           display: inline-block;
