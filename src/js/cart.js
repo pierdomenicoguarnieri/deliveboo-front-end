@@ -21,7 +21,6 @@ export const cart = {
 
   //Funzione per aggiungere piatto al carrello
   AddToCart(dish, route) {
-    console.log(route, localStorage.getItem('route'))
     const addcartbutton = document.getElementById('add' + dish.id);
     const changequantity = document.getElementById('changequantity' + dish.id);
     let arraydishes = store.arraydishes;
