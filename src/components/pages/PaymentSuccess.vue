@@ -1,12 +1,22 @@
 <script>
 import axios from 'axios';
+import {store} from '../../store/store';
+import {cart} from '../../js/cart.js';
 export default {
   name: 'PaymentSuccess',
+  data() {
+    return {
+      store,
+      cart,
+    };
+  },
   methods:{
     checkIfPaymentSuccess(){
-      let data = localStorage.getItem('token'); 
+      let data = {
+        token: localStorage.getItem('token')
+      };
       axios.post('http://127.0.0.1:8000/api/orders/check-payment', data)
-        .then(response =>{
+      .then(response =>{
           if(response.data.success){
             localStorage.clear();
           }else{
@@ -16,9 +26,8 @@ export default {
     }
   },
   mounted(){
-    localStorage.clear();
-    this.checkIfPaymentSuccess()
-  }
+    this.checkIfPaymentSuccess();
+  },
 }
 </script>
 
