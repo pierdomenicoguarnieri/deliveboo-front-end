@@ -80,9 +80,9 @@ export default {
                         Aggiungi al carrello
                       </button>
                       <div class="d-none" :id="'changequantity' + dish.id">
-                        <button type="button" class="btn btn-danger" @click="cart.removeCart(dish, $route.fullPath)"><i class="fa-solid fa-minus"></i></button>
+                        <button type="button" class="custom-btn-remove" @click="cart.removeCart(dish, $route.fullPath)"><i class="fa-solid fa-minus"></i></button>
                           <span class="mx-2" :id="'quantity' + dish.id"></span>
-                        <button type="button" class="btn btn-success" @click="cart.addCart(dish, $route.fullPath)"><i class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="custom-btn-add" @click="cart.addCart(dish, $route.fullPath)"><i class="fa-solid fa-plus"></i></button>
                       </div>
                     </div>
                   </div>

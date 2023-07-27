@@ -109,8 +109,8 @@ export default {
           <span class="fw-bold typology" :id="type.id" @click="getTypeId(type.id), checkActive(type.id)">{{ type.name }}</span>
         </div>
         <div class="btn-container p-3">
-          <span class="reset fw-bold mb-5" @click="store.types_id = [], store.restaurants = store.restaurant_backup, resetActive()">
-            Reset
+          <span class="reset btn-reset fw-bold mb-5" @click="store.types_id = [], store.restaurants = store.restaurant_backup, resetActive()">
+            Elimina filtri
           </span>
         </div>
       </div>
@@ -228,10 +228,14 @@ export default {
     border-radius: 20px;
     transition: all .3s;
     &.reset{
-      background-color: darken($tertiary_color, 10%);
+      border: 2px solid $tertiary_color;
+      color: $tertiary_color;
+      background-color:  $custom_white;
     }
+
     &:hover, &.active{
       background-color: rgba($tertiary_color, 0.6);
+      color: $custom_white;
     }
   }
 }
@@ -260,6 +264,4 @@ export default {
     font-size: .8rem;
   }
 }
-
-
 </style>
