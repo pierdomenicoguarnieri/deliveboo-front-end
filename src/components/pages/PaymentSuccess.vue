@@ -39,7 +39,7 @@ export default {
 <template>
   <div class="page-wrapper">
   <Loading v-if="!store.loaded"/>
-  <div class="contet-wrapper" v-else>
+  <div class="content-wrapper" v-else>
     <h1>Pagamento avvenuto con successo!</h1>
     <div class="btn-container">
       <router-link class="btn btn-primary boo-btn" :to="{name:'home'}">Torna alla home</router-link>
