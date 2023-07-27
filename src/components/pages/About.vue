@@ -20,8 +20,12 @@ export default {
                         <h3 class="team-member-name">Pierdomenico Guarnieri</h3>
                         <p class="team-member-role">Jr. Full Stack Web Developer</p>
                         <div class="social">
-                            <a href="#"><i class="fa-brands fa-linkedin me-3"></i></a>
-                            <a href="#"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/pierdomenico-guarnieri-820740263/">
+                                <i class="fa-brands fa-linkedin me-3"></i>
+                            </a>
+                            <a href="https://github.com/pierdomenicoguarnieri">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -79,9 +83,9 @@ export default {
 
         <section class="location-section d-flex align-items-center justify-content-center">
             <div class="location-description">
-                <h2 class="section-title">Dove siamo</h2>
-                <p>
-                    <strong>Indirizzo: </strong>
+                <h2>Dove siamo</h2>
+                <p class="address pt-3">
+                    <i class="fa-solid fa-location-dot me-2"></i>
                     <a href="https://goo.gl/maps/rEEeLo5VjbSSjJaV7" target="_blank" rel="noopener">Via Tommaso Marino n.7, 20121 - Milano (MI)</a>
                 </p>
             </div>
@@ -89,9 +93,10 @@ export default {
 
         <section class="career-section d-flex align-items-center justify-content-center">
             <div class="career-description">
-                <h2 class="section-title">Lavora con noi</h2>
-                <p>
-                    Stiamo sempre cercando nuovi talenti per unirsi al nostro team. Invia il tuo CV a careers@deliveboo.it.
+                <h2>Lavora con noi</h2>
+                <p class="pt-3">
+                    Stiamo sempre cercando nuovi talenti per unirsi al nostro team. 
+                    Invia il tuo CV a <strong>careers@deliveboo.it</strong>.
                 </p>
                 <a class="btn btn-primary boo-btn" href="mailto:careers@deliveboo.it">Invia CV</a>
             </div>            
@@ -186,12 +191,18 @@ export default {
     .location-description {
         position: relative;
         z-index: 1;
-        a{
-            color:   white;
+        .address{
             &:hover{
                 color: $tertiary_color;
+                a{
+                    color: $tertiary_color;
+                }
+            }
+            a{
+                color:   white;
             }
         }
+
     }
 }
 

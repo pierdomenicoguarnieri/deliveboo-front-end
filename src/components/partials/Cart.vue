@@ -96,7 +96,7 @@ export default {
                         </div>
 
                     </div>
-                    <div class="text-center mt-4 mb-3">
+                    <div class="text-center button_cart_big mt-4 mb-3">
                         <a class="custom-btn-clearcart me-3" @click="cart.clearCart($route.fullPath)">
                             Svuota carrello
                         </a>
@@ -179,6 +179,24 @@ h3,h4,h6{
         width: 300px !important;
         right: 0 !important;
         top: 90% !important;
+        .row{
+            display: block !important;
+            .col-5, .col-7{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                //padding-top: 5px;
+                padding-bottom: 5px;
+            }
+        }
+        .button_cart_big{
+            a{
+                display: block;
+                margin-right: 0 !important;
+                margin-bottom: 10px;
+            }
+        }
     }
     
 }
