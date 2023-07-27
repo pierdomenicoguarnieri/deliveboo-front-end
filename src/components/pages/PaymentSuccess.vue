@@ -2,7 +2,9 @@
 import axios from 'axios';
 import {store} from '../../store/store';
 import {cart} from '../../js/cart.js';
+import Loading from '../partials/Loading.vue';
 export default {
+  components: { Loading },
   name: 'PaymentSuccess',
   data() {
     return {
@@ -12,13 +14,15 @@ export default {
   },
   methods:{
     checkIfPaymentSuccess(){
+      store.loaded = false;
       let data = {
         token: localStorage.getItem('token')
       };
       axios.post('http://127.0.0.1:8000/api/orders/check-payment', data)
       .then(response =>{
           if(response.data.success){
-            localStorage.clear();
+            cart.clearCart();
+            store.loaded = true;
           }else{
             window.location.href = 'http://localhost:5174/error404'
           }
@@ -26,6 +30,7 @@ export default {
     }
   },
   mounted(){
+    store.loaded = false;
     this.checkIfPaymentSuccess();
   },
 }
@@ -33,10 +38,13 @@ export default {
 
 <template>
   <div class="page-wrapper">
+  <Loading v-if="!store.loaded"/>
+  <div class="contet-wrapper" v-else>
     <h1>Pagamento avvenuto con successo!</h1>
     <div class="btn-container">
       <router-link class="btn btn-primary boo-btn" :to="{name:'home'}">Torna alla home</router-link>
     </div>
+  </div>
   </div>
 </template>
 
@@ -48,8 +56,14 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    .btn-container{
-      margin-top: 30px;
+    .content-wrapper{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .btn-container{
+        margin-top: 30px;
+      }
     }
   }
 </style>
