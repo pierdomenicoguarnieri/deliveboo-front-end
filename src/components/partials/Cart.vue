@@ -43,7 +43,7 @@ export default {
 <template>
     <div class="boo-dropdown ms-4">
         <div class="cart-button-container position relative">
-            <i class="fa-solid fa-cart-shopping h-100" @click="toggleDropdown()"></i>
+            <i class="fa-solid fa-cart-shopping h-100 cart" @click="toggleDropdown()"></i>
             <span class="position-absolute d-none" id="somma"></span>
         </div>
         <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown">
@@ -76,11 +76,11 @@ export default {
                                 </div>
                                 <div class="col-7 d-flex align-items-center">
                                     <div class="mx-2 ">
-                                        <button type="button" class="btn btn-danger btn-sm" @click="cart.removeCart(dishArray.dish, $route.fullPath)">
+                                        <button type="button" class="custom-btn-remove" @click="cart.removeCart(dishArray.dish, $route.fullPath)">
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
                                             <span class="mx-2" :id="'quantity_cart' + dishArray.id"></span>
-                                        <button type="button" class="btn btn-success btn-sm" @click="cart.addCart(dishArray.dish, $route.fullPath)">
+                                        <button type="button" class="custom-btn-add" @click="cart.addCart(dishArray.dish, $route.fullPath)">
                                             <i class="fa-solid fa-plus"></i>
                                         </button>
 
@@ -96,11 +96,11 @@ export default {
                         </div>
 
                     </div>
-                    <div class="text-center mt-2 mb-3">
-                        <button class="btn btn-danger btn-sm mt-3 me-3" @click="cart.clearCart($route.fullPath)">
+                    <div class="text-center mt-4 mb-3">
+                        <a class="custom-btn-clearcart me-3" @click="cart.clearCart($route.fullPath)">
                             Svuota carrello
-                        </button>
-                        <a class="btn btn-success btn-sm  mt-3" @click="sendCart()">
+                        </a>
+                        <a class="custom-btn-checkout" @click="sendCart()">
                             Vai alla cassa
                         </a>
                     </div>
@@ -145,7 +145,7 @@ h3,h4,h6{
         background-color: $tertiary_color;
         text-align: center;
     }
-    i{
+    .cart{
         font-size: 1.4rem;
     }
     .boo-dropdown-body{

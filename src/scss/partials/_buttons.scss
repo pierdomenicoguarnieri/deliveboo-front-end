@@ -14,3 +14,58 @@
 a{
   text-decoration: none !important;
 }
+
+.custom-btn-remove{
+  border: 2px solid #DC3545;
+  background-color: #DC3545;
+  color: $custom_white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  &:hover{
+    border: 2px solid #DC3545;
+    background-color:  $custom_white;
+    color: #DC3545;
+  }
+}
+.custom-btn-add{
+  border: 2px solid #198754;
+  background-color: #198754;
+  color: $custom_white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  &:hover{
+    border: 2px solid #198754;
+    background-color:  $custom_white;
+    color: #198754;
+  }
+}
+.custom-btn-clearcart{
+  border: 1px solid #DC3545;
+  background-color: #DC3545;
+  color: $custom_white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  &:hover{
+    border: 1px solid #DC3545;
+    background-color:  $custom_white;
+    color: #DC3545;
+  }
+}
+.custom-btn-checkout{
+  border: 1px solid #198754;
+  background-color: #198754;
+  color: $custom_white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  &:hover{
+    border: 1px solid #198754;
+    background-color:  $custom_white;
+    color: #198754;
+  }
+}
