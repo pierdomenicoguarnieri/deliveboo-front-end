@@ -11,7 +11,7 @@ export default {
         <section class="team-section">
             <div class="d-flex align-items-center justify-content-center flex-wrap">
                 <div class="team-card">
-                    <img class="team-member-image" :src="'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29uZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60'" alt="Membro del team">
+                    <img class="team-member-image" src="/public/img/team/pierdomenico-guarnieri.jpg" alt="Membro del team">
                     <div class="social">
                         <i class="fa-brands fa-linkedin me-3"></i>
                         <i class="fa-brands fa-github"></i>
@@ -30,7 +30,7 @@ export default {
                     </div>
                 </div>
                 <div class="team-card"> 
-                    <img class="team-member-image" :src="'https://images.unsplash.com/photo-1524666041070-9d87656c25bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFzY2hpb3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60'" alt="Membro del team">
+                    <img class="team-member-image" src="/public/img/team/daniele-spuria.png" alt="Membro del team">
                     <div class="social">
                         <i class="fa-brands fa-linkedin me-3"></i>
                         <i class="fa-brands fa-github"></i>
@@ -39,13 +39,13 @@ export default {
                         <h3 class="team-member-name">Daniele Spuria</h3>
                         <p class="team-member-role">Jr. Full Stack Web Developer</p>
                         <div class="social">
-                            <a href="#"><i class="fa-brands fa-linkedin me-3"></i></a>
-                            <a href="#"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/daniele-spuria-49375a282/"><i class="fa-brands fa-linkedin me-3"></i></a>
+                            <a href="https://github.com/DanieleSpuria"><i class="fa-brands fa-github"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="team-card">
-                    <img class="team-member-image" :src="'https://images.unsplash.com/photo-1525457136159-8878648a7ad0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80'" alt="Membro del team">
+                    <img class="team-member-image" src="/public/img/team/niccolo-vaccina.jpg" alt="Membro del team">
                     <div class="social">
                         <i class="fa-brands fa-linkedin me-3"></i>
                         <i class="fa-brands fa-github"></i>
@@ -64,7 +64,7 @@ export default {
                     </div>
                 </div>
                 <div class="team-card">
-                    <img class="team-member-image" :src="'https://plus.unsplash.com/premium_photo-1666298858421-3765c17bcf80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80'" alt="Membro del team">
+                    <img class="team-member-image" src="/public/img/team/emilio-federico.png" alt="Membro del team">
                     <div class="social">
                         <i class="fa-brands fa-linkedin me-3"></i>
                         <i class="fa-brands fa-github"></i>
@@ -73,8 +73,8 @@ export default {
                         <h3 class="team-member-name">Emilio Federico</h3>
                         <p class="team-member-role">Jr. Full Stack Web Developer</p>
                         <div class="social">
-                            <a href="#"><i class="fa-brands fa-linkedin me-3"></i></a>
-                            <a href="#"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/emilio-federico-085b63153/"><i class="fa-brands fa-linkedin me-3"></i></a>
+                            <a href="https://github.com/emilioff8822"><i class="fa-brands fa-github"></i></a>
                         </div>
                     </div>
                 </div>
@@ -106,6 +106,7 @@ export default {
 
 <style scoped lang="scss">
 @use '../../scss/partials/variables' as *;
+
 .about-container-inner {
     padding: 2rem;
     background-color: rgba(white, 0.6);
@@ -143,6 +144,7 @@ export default {
     }
     .team-member-image {
         width: 100%;
+        height: 500px;
         object-fit: cover;
     }
     .team-member-info {
