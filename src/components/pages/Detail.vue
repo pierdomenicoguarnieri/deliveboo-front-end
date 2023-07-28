@@ -57,7 +57,7 @@ export default {
         <section class="dishes-section">
           <h2>I nostri piatti</h2>
           <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
-            <div class="col" v-for="dish in store.restaurant.dishes" :key="dish.id">
+            <div class="col" v-for="dish in store.restaurant.dishes"  v-show="dish.visible" :key="dish.id">
               <div class="boo-card rounded-5">
                 <div class="card-body">
                   <div class="dish-image-wrapper">

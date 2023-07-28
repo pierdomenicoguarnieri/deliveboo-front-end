@@ -246,6 +246,29 @@ export const cart = {
     if(localStorage.totalPrice){     
       //let arraydishes = store.arraydishes;
       store.arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
+      // store.restaurant_backup.forEach(restaurant => {
+
+      // if(restaurant.id == localStorage.getItem('restaurantId')){
+      //   store.restaurant.dishes.forEach(dish_array => {
+      //     console.log(dish_array);
+      //     store.arraydishes.forEach((dish_from_array, index) => {
+      //       console.log(dish_from_array);
+      //       if(dish_from_array.dish.id === dish_array.id){
+      //         if(dish_array.visible == 0){
+      //           console.log('non visibile');
+      //           store.arraydishes.splice(index, 1);
+      //           this.deleteDishFromCart(dish_from_array.dish, route);
+      //         }
+      //         else{
+      //           console.log('visibile');
+      //           this.printDishQuantity(dish_from_array.dish, route);
+      //         }
+      //       }
+      //     })
+      //   });
+      // }
+
+      // });
       totalPrice.innerHTML = localStorage.getItem("totalPrice");
 
       let restaurantcart = document.getElementById("restaurantcart");
@@ -255,11 +278,7 @@ export const cart = {
         let somma = document.getElementById("somma");
         somma.innerHTML = localStorage.getItem("totalQuantity");
         somma.classList.remove('d-none');
-      }
-
-      store.arraydishes.forEach(dish_from_array => {
-        this.printDishQuantity(dish_from_array.dish, route);
-      });
+      }      
       return store.arraydishes
     }
   },
@@ -288,7 +307,6 @@ export const cart = {
           add.classList.remove('d-none');
           change.classList.add('d-none');
         }
-
         arraydishes.splice(index, 1);
         localStorage.setItem('arraydishes', JSON.stringify(arraydishes));
         this.arraydishes(route);
@@ -296,9 +314,6 @@ export const cart = {
       if(arraydishes.length == 0){
         this.clearCart(route);
       }
-      
-      
-
     })
   },
 
