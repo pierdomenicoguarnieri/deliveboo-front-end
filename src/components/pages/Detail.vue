@@ -83,6 +83,13 @@ export default {
                       <p class="dish-ingredients"><i class="fa-solid fa-utensils"></i> {{ dish.ingredients }}</p>
                       <p><i class="fa-solid fa-money-bill-wave"></i> {{ dish.price.toFixed(2) }} &euro;</p>
                     </div>
+
+                    <div class="dish-flags d- mb-2">
+                      <span class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_vegan, 'disabled' : !dish.is_vegan }" title="Vegano"><i class="fa-solid fa-seedling"></i></span>
+                      <span class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_frozen, 'disabled' : !dish.is_frozen }" title="Surgelato"><i class="fa-solid fa-snowflake"></i></span>
+                      <span class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_gluten_free, 'disabled' : !dish.is_gluten_free }" title="Senza Glutine"><i class="fa-solid fa-wheat-awn-circle-exclamation"></i></span>
+                      <span class="btn btn-outline-primary boo-btn me-2 " :class="{'active' : dish.is_lactose_free, 'disabled' : !dish.is_lactose_free }" title="Senza Lattosio"><i class="fa-solid fa-cow"></i></span>
+                    </div>
   
                     <div class="btn-container d-flex justify-content-center">
                       <button 
@@ -152,10 +159,11 @@ export default {
         p{
           margin-bottom: 10px;
         }
-        .dish-name, .dish-ingredients{
+
+        .dish-name, .dish-ingredients, .dish-description{
           white-space: nowrap;
           display: inline-block;
-          max-width: 100%;
+          max-width: 90%;
           overflow: hidden;
           text-overflow: ellipsis;
           max-height: 35px;
