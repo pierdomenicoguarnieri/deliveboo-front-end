@@ -6,7 +6,7 @@ export default {
 </script>
 
 <template>
-  <footer>
+  <footer class="d-flex align-items-center justify-content-center">
     <div class="container">
       <div class="row">
         <div class="col-12 col-sm-6 col-lg-4 d-flex order-1">
