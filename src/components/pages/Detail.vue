@@ -3,6 +3,7 @@ import {store} from '../../store/store';
 import Stars from '../partials/Stars.vue';
 import Loading from '../partials/Loading.vue';
 import {cart} from '../../js/cart.js';
+import axios from 'axios';
 import AnimationHome from '../partials/AnimationHome.vue';
 
 export default {
@@ -18,8 +19,20 @@ export default {
     Loading,
     AnimationHome
   },
-
+  methods:{
+    getApi(endpoint){
+      store.loaded = false;
+      axios.get(store.apiUrl + endpoint)
+        .then(results => {
+          store.restaurants = results.data.restaurants;
+          store.restaurant_backup = store.restaurants;
+          store.types = results.data.types;
+          store.loaded = true;
+        })
+    }
+  },
   mounted(){
+    this.getApi('restaurants');
     cart.getRestaurant('restaurants/restaurant-detail/' + this.$route.params.slug, this.$route.fullPath);
   }
 }

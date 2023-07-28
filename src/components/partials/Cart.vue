@@ -18,15 +18,15 @@ export default {
             const dropdown = document.getElementById('boo-dropdown')
             dropdown.classList.contains('hidden') ? dropdown.classList.remove('hidden') : dropdown.classList.add('hidden')
         },
-
+        
         sendCart(){
             let data = localStorage;
             axios.post('http://127.0.0.1:8000/api/orders/send-order', data)
-                .then(response => {
-                    if(response.data.success){
-                        window.location.href = 'http://127.0.0.1:8000/checkout-form';
-                    }
-                })
+            .then(response => {
+                if(response.data.success){
+                    window.location.href = 'http://127.0.0.1:8000/checkout-form';
+                }
+            })
         }
     },
     mounted() {

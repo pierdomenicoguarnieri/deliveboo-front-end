@@ -246,29 +246,26 @@ export const cart = {
     if(localStorage.totalPrice){     
       //let arraydishes = store.arraydishes;
       store.arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
-      // store.restaurant_backup.forEach(restaurant => {
+      store.restaurant_backup.forEach(restaurant => {
+      console.log(restaurant);
+      if(restaurant.id == localStorage.getItem('restaurantId')){
+        store.restaurant.dishes.forEach(dish_array => {
+          store.arraydishes.forEach((dish_from_array, index) => {
+            if(dish_from_array.dish.id === dish_array.id){
+              if(dish_array.visible == 0){
+                console.log('non visibile');
+                this.deleteDishFromCart(dish_from_array.dish, route);
+              }
+              else{
+                console.log('visibile');
+                this.printDishQuantity(dish_from_array.dish, route);
+              }
+            }
+          })
+        });
+      }
 
-      // if(restaurant.id == localStorage.getItem('restaurantId')){
-      //   store.restaurant.dishes.forEach(dish_array => {
-      //     console.log(dish_array);
-      //     store.arraydishes.forEach((dish_from_array, index) => {
-      //       console.log(dish_from_array);
-      //       if(dish_from_array.dish.id === dish_array.id){
-      //         if(dish_array.visible == 0){
-      //           console.log('non visibile');
-      //           store.arraydishes.splice(index, 1);
-      //           this.deleteDishFromCart(dish_from_array.dish, route);
-      //         }
-      //         else{
-      //           console.log('visibile');
-      //           this.printDishQuantity(dish_from_array.dish, route);
-      //         }
-      //       }
-      //     })
-      //   });
-      // }
-
-      // });
+      });
       totalPrice.innerHTML = localStorage.getItem("totalPrice");
 
       let restaurantcart = document.getElementById("restaurantcart");
