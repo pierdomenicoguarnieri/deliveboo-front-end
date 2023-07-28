@@ -64,7 +64,10 @@ export default {
             <h1>{{ store.restaurant.name }}</h1>
             <p><i class="fa-solid fa-location-dot"></i> {{ store.restaurant.address }}</p>
             <p><i class="fa-solid fa-phone"></i> {{ store.restaurant.telephone_number }}</p>
-            <p><i class="fa-solid fa-envelope"></i> {{ store.restaurant.email }}</p>
+            <p><i class="fa-solid fa-envelope" @click="console.log(store.restaurant)"></i> {{ store.restaurant.email }}</p>
+            <div>
+              <span v-for="typology in store.restaurant.types" :key="typology.id" class="badge text-bg-secondary me-2 text-capitalize mb-2">{{ typology.name }}</span>
+            </div>
           </div>
         </div>
         <section class="dishes-section">
@@ -124,6 +127,22 @@ export default {
     color: red;
     font-size: bold;
     border-radius: 15px;
+  }
+}
+.typology-container{
+  white-space: nowrap;
+  display: inline-block;
+  padding: 0 10px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 35px;
+  cursor: default;
+  transition: all 1s;
+  &:hover, &:hover, &:hover{
+    white-space: break-spaces;
+    max-width: none;
+    max-height: 200px;
   }
 }
 
