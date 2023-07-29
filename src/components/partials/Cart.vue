@@ -48,6 +48,9 @@ export default {
         </div>
         <div class="boo-dropdown-body position-absolute hidden" id="boo-dropdown">
             <div class="cart-container">
+                <div class="btn-close-cart" @click="toggleDropdown()">
+                    <i class="fa-solid fa-x"></i>
+                </div>
                 <div v-show="store.arraydishes.length != 0">
                     <div>
                         <h6>
