@@ -88,10 +88,18 @@ export default {
                     </div>
 
                     <div class="dish-flags d- mb-2">
-                      <span class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_vegan, 'disabled' : !dish.is_vegan }" title="Vegano"><i class="fa-solid fa-seedling"></i></span>
-                      <span class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_frozen, 'disabled' : !dish.is_frozen }" title="Surgelato"><i class="fa-solid fa-snowflake"></i></span>
-                      <span class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_gluten_free, 'disabled' : !dish.is_gluten_free }" title="Senza Glutine"><i class="fa-solid fa-wheat-awn-circle-exclamation"></i></span>
-                      <span class="btn btn-outline-primary boo-btn me-2 " :class="{'active' : dish.is_lactose_free, 'disabled' : !dish.is_lactose_free }" title="Senza Lattosio"><i class="fa-solid fa-cow"></i></span>
+                      <span v-show="dish.is_vegan" class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_vegan, 'disabled' : !dish.is_vegan }" title="Vegano">
+                        <i class="fa-solid fa-seedling"></i>
+                      </span>
+                      <span v-show="dish.is_frozen" class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_frozen, 'disabled' : !dish.is_frozen }" title="Surgelato">
+                        <i class="fa-solid fa-snowflake"></i>
+                      </span>
+                      <span v-show="dish.is_gluten_free" class="btn btn-outline-primary boo-btn me-2" :class="{'active' : dish.is_gluten_free, 'disabled' : !dish.is_gluten_free }" title="Senza Glutine">
+                        <i class="fa-solid fa-wheat-awn-circle-exclamation"></i>
+                      </span>
+                      <span v-show="dish.is_lactose_free" class="btn btn-outline-primary boo-btn me-2 " :class="{'active' : dish.is_lactose_free, 'disabled' : !dish.is_lactose_free }" title="Senza Lattosio">
+                        <i class="fa-solid fa-cow"></i>
+                      </span>
                     </div>
   
                     <div class="btn-container d-flex justify-content-center">
