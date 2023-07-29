@@ -215,11 +215,13 @@ export default {
   background-color: $custom_white !important;
   button.collapsed{
     background-color: rgba(lighten($custom_gray, 60%), 0.95) !important;
+    border: 2px solid $tertiary_color;
   }
 
   button:not(.collapsed){
     background-color: $tertiary_color !important;
     color: $custom_white !important;
+    border: 2px solid $tertiary_color;
     &::after{
       filter: invert(100%) !important;
     }

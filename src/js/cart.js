@@ -244,20 +244,16 @@ export const cart = {
   //Funzione per aggiornare array carrello
   arraydishes(route) {
     if(localStorage.totalPrice){     
-      //let arraydishes = store.arraydishes;
       store.arraydishes = JSON.parse(localStorage.getItem('arraydishes'));
       store.restaurant_backup.forEach(restaurant => {
-      console.log(restaurant);
       if(restaurant.id == localStorage.getItem('restaurantId')){
         store.restaurant.dishes.forEach(dish_array => {
           store.arraydishes.forEach((dish_from_array, index) => {
             if(dish_from_array.dish.id === dish_array.id){
               if(dish_array.visible == 0){
-                console.log('non visibile');
                 this.deleteDishFromCart(dish_from_array.dish, route);
               }
               else{
-                console.log('visibile');
                 this.printDishQuantity(dish_from_array.dish, route);
               }
             }
