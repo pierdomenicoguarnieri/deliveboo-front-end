@@ -77,7 +77,6 @@ export default {
         check.classList.remove('active')
       }
     },
-
     resetActive(){
       const typologies_buttons = document.querySelectorAll('.typology');
 
@@ -96,15 +95,38 @@ export default {
 <template>
   <div class="home-container-inner">
     <h1 class="home-title">Benvenuto su DeliveBoo!</h1>
-    
-    <!-- <div class="home-search-container d-flex justify-content-center">
-      <input class="home-search-input w-50" type="search" placeholder="Cerca un ristorante...">
-      <button type="submit" class="p-3 text-center search_button"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </div> -->
-    
+
     <Loading v-if="!store.loaded"/>
     <div class="container" v-else>
-      <div class="container-types d-flex flex-wrap justify-content-center mb-5">
+      
+      <div class="accordion accordion-flush accordion-filter d-sm-none mb-4 mt-2" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Filtra per TIPI di ristorante
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="collapse " aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <div class="form-check d-flex flex-column">
+                <div class="input-wrapper" v-for="(type, index) in store.types" :key="index">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    autocomplete="off"
+                    id="type"
+                    value="{{type.id}}"
+                    @click="getTypeId(type.id), checkActive(type.id)"
+                    >
+                  <label class="form-check-label text-capitalize" for="type">{{ type.name }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container-types d-none d-sm-flex flex-wrap justify-content-center mb-5">
         <div class="type-container p-3" v-for="(type, index) in store.types" :key="index">
           <span class="fw-bold typology" :id="type.id" @click="getTypeId(type.id), checkActive(type.id)">{{ type.name }}</span>
         </div>
@@ -180,6 +202,8 @@ export default {
 <style lang="scss" scoped>
 
 @use '../../scss/partials/variables' as *;
+@import '../../scss/app.scss';
+
 .home-container-inner {
   padding: 20px;
   background-color: rgba(white, 0.6);
@@ -187,6 +211,24 @@ export default {
   text-align: center;
 }
 
+.accordion-filter{
+  background-color: $custom_white !important;
+  button.collapsed{
+    background-color: rgba(lighten($custom_gray, 60%), 0.95) !important;
+  }
+
+  button:not(.collapsed){
+    background-color: $tertiary_color !important;
+    color: $custom_white !important;
+    &::after{
+      filter: invert(100%) !important;
+    }
+  }
+
+  button:focus{
+    box-shadow: 0 0 0 5px rgba($tertiary_color, 0.5) !important;
+  }
+}
 .row{
   padding-top: 30px;
   .col{
