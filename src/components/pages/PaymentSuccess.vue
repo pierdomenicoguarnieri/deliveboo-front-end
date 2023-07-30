@@ -61,6 +61,7 @@ export default {
     background-color: rgba(white, 0.6);
     display: flex;
     flex-direction: column;
+    text-align: center;
     align-items: center;
     justify-content: center;
     .content-wrapper{
