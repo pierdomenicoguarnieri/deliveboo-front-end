@@ -10,6 +10,8 @@ export default {
     return {
       store,
       cart,
+      data: Array,
+      transaction_id: String
     };
   },
   methods:{
@@ -24,6 +26,8 @@ export default {
           if(response.data.success){
             cart.clearCart();
             store.loaded = true;
+            this.data = response.data.data;
+            this.transaction_id = response.data.transaction_id;
           }else{
             window.location.href = 'http://localhost:5174/error404'
           }
@@ -41,7 +45,9 @@ export default {
   <div class="page-wrapper">
   <Loading v-if="!store.loaded"/>
   <div class="content-wrapper" v-else>
-    <h1>Pagamento avvenuto con successo!</h1>
+    <h1 class="mb-3">Pagamento avvenuto con successo!</h1>
+    <span>Hai pagato: &euro; {{ data.total_price.toFixed(2) }}</span>
+    <span>ID transazione: {{ transaction_id }}</span>
     <div class="btn-container">
       <router-link class="btn btn-primary boo-btn" :to="{name:'home'}">Torna alla home</router-link>
     </div>

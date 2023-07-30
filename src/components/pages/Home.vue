@@ -99,10 +99,10 @@ export default {
     <Loading v-if="!store.loaded"/>
     <div class="container" v-else>
       
-      <div class="accordion accordion-flush accordion-filter d-sm-none mb-4 mt-2" id="accordionFlushExample">
+      <div class="accordion accordion-flush accordion-filter d-sm-none mb-4 mt-2 rounded-5 overflow-hidden" id="accordionFlushExample">
         <div class="accordion-item">
           <h2 class="accordion-header" id="flush-headingOne">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+            <button class="accordion-button collapsed rounded-5 overflow-hidden" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
               Filtra per TIPI di ristorante
             </button>
           </h2>
@@ -112,7 +112,7 @@ export default {
                 <div class="input-wrapper" v-for="(type, index) in store.types" :key="index">
                   <input
                     type="checkbox"
-                    class="form-check-input"
+                    class="form-check-input boo-btn"
                     autocomplete="off"
                     id="type"
                     value="{{type.id}}"

@@ -5,6 +5,16 @@
   }
 }
 
+.form-check-input:checked{
+  background-color: $tertiary_color !important;
+  border-color: $tertiary_color !important;
+}
+
+.form-check-input:focus{
+  box-shadow: 0 0 0 5px rgba($tertiary_color, 0.5)!important;
+  border-color: $tertiary_color !important;
+}
+
 .boo-btn{
   border-color: $tertiary_color !important;
   color: $tertiary_color !important;
