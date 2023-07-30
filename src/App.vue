@@ -40,7 +40,11 @@ export default {
   
     <main>
       <AnimationHome v-if="!store.animationFinished"/>
-      <router-view v-else></router-view>
+      <router-view v-else v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </main>
   
     <Footer/>
@@ -49,6 +53,16 @@ export default {
 
 <style lang="scss">
   @import './scss/app.scss';
+
+  main{
+    will-change: transform, opacity;
+  }
+  .fade-enter-from, .fade-leave-to{
+    opacity: 0;
+  }
+  .fade-enter-active, .fade-leave-active{
+    transition: opacity 0.3s ease-out;
+  }
 
   .fadein{
   animation: fade-in .4s;
