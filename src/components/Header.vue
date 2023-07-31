@@ -130,7 +130,6 @@ export default {
                     </li>
                     <li>
                         <a href="http://127.0.0.1:8000/admin">Dashboard</a>
-                        
                     </li>
                 </ul>
             </nav>
@@ -142,15 +141,18 @@ export default {
 
                     <div class="boo-menu-body hidden position-absolute" id="boo-menu-body">
                         <nav>
-                            <ul class="d-flex">
+                            <ul class="d-flex justify-content-between pe-2">
                                 <li>
-                                    <router-link :to="{name:'home'}">home</router-link>
+                                    <router-link :to="{name:'home'}"><i class="fa-solid fa-house"></i></router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'about'}">chi siamo</router-link>
+                                    <router-link :to="{name:'about'}"><i class="fa-solid fa-users"></i></router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'contacts'}">contatti</router-link>
+                                    <router-link :to="{name:'contacts'}"><i class="fa-solid fa-phone"></i></router-link>
+                                </li>
+                                <li>
+                                    <a href="http://127.0.0.1:8000/admin"><i class="fa-solid fa-chart-pie"></i></a>
                                 </li>
                             </ul>
                         </nav>
@@ -209,11 +211,11 @@ header {
     }
     .boo-menu-body{
         overflow: hidden;
-        height: 40px;
+        height: 35px;
         z-index: 999;
         right: 30px;
-        top: 11px;
-        width: 220px;
+        top: 8px;
+        width: 160px;
         transition: all .5s;
         &.hidden{
             z-index: -999;
@@ -229,7 +231,7 @@ header {
                     margin: 0;
                     a{
                         white-space: nowrap;
-                        font-size: 0.8rem;
+                        font-size: 1.3rem;
                     }
                 }
             }

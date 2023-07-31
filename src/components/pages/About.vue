@@ -174,7 +174,10 @@ export default {
 }
 
 .location-section {
-    background: url('https://www.touringclub.it/sites/default/files/styles/gallery_full/public/immagini_georiferite/milano_skyline.jpg?itok=TbPKX_QG') no-repeat center center/cover;
+    background: url('https://www.grattacielimilano.it/it/wp-content/uploads/2019/12/skyline-da-branca-20191116-balena1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     color: white;
     height: 300px;
     border-radius: 15px;
