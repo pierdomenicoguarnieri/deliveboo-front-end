@@ -7,7 +7,6 @@
   import 'swiper/css';
   import 'swiper/css/pagination';
   import { Mousewheel, Pagination, Autoplay } from 'swiper/modules';
-  import Stars from '../partials/Stars.vue';
   import Loading from '../partials/Loading.vue';
   import Card from '../partials/Card.vue';
 
@@ -16,7 +15,6 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    Stars,
     Loading,
     Card
   },

@@ -1,6 +1,5 @@
 <script>
 import {store} from '../../store/store';
-import Stars from '../partials/Stars.vue';
 import Loading from '../partials/Loading.vue';
 import {cart} from '../../js/cart.js';
 import axios from 'axios';
@@ -15,7 +14,6 @@ export default {
     }
   },
   components:{
-    Stars,
     Loading,
     AnimationHome
   },
