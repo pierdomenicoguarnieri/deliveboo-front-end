@@ -78,7 +78,7 @@ export default {
                     <img :src="dish.image_path" class="dish-image" :alt="dish.name" />
                   </div>
                   <div class="text d-flex flex-column justify-content-between">
-                    <div class="infos">
+                    <div class="infos d-flex flex-column">
                       <h3 class="dish-name">{{ dish.name }}</h3>
                       <p v-html="dish.description" class="dish-description mb-0"></p>
                       <p class="dish-ingredients"><i class="fa-solid fa-utensils"></i> {{ dish.ingredients }}</p>

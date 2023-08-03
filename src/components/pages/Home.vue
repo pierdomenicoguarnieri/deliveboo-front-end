@@ -255,7 +255,7 @@ export default {
     height: 500px;
     padding: 30px 30px;
     .boo-card{
-      height: 400px;
+      height: 420px;
     }
   }
 }

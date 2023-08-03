@@ -12,7 +12,7 @@ export default {
       <div class="restaurant-image-wrapper">
         <img class="restaurant-image" :src="restaurant.image_path" :alt="restaurant.image_name">
       </div>
-      <div class="text">
+      <div class="text d-flex flex-column">
         <h3 class="restaurant-name">{{restaurant.name}}</h3>
         <span class="restaurant-address"><i class="fa-solid fa-location-dot"></i> {{ restaurant.address }}</span>
         <div class="typology-container my-2">
@@ -63,7 +63,7 @@ export default {
           &:hover, &:hover, &:hover{
             white-space: break-spaces;
             max-width: none;
-            max-height: 200px;
+            max-height: 300px;
           }
         }
       }
